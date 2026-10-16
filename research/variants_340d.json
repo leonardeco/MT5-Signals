@@ -1,0 +1,2420 @@
+{
+ "cutoff": 1775498040.0,
+ "variants": {
+  "BASE": {
+   "hypothesis": "Base",
+   "eval": {
+    "XAUUSD": {
+     "is": {
+      "n": 70,
+      "win_rate": 62.9,
+      "avg_r": 0.198,
+      "total_r": 13.88,
+      "profit_factor": 1.53,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 42,
+      "win_rate": 40.5,
+      "avg_r": -0.047,
+      "total_r": -1.98,
+      "profit_factor": 0.92,
+      "max_losing_streak": 7
+     }
+    },
+    "EURUSD": {
+     "is": {
+      "n": 70,
+      "win_rate": 41.4,
+      "avg_r": -0.097,
+      "total_r": -6.79,
+      "profit_factor": 0.83,
+      "max_losing_streak": 8
+     },
+     "oos": {
+      "n": 43,
+      "win_rate": 39.5,
+      "avg_r": -0.131,
+      "total_r": -5.64,
+      "profit_factor": 0.77,
+      "max_losing_streak": 5
+     }
+    },
+    "GBPUSD": {
+     "is": {
+      "n": 47,
+      "win_rate": 44.7,
+      "avg_r": -0.094,
+      "total_r": -4.44,
+      "profit_factor": 0.82,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 41,
+      "win_rate": 41.5,
+      "avg_r": -0.128,
+      "total_r": -5.27,
+      "profit_factor": 0.77,
+      "max_losing_streak": 8
+     }
+    },
+    "US100": {
+     "is": {
+      "n": 65,
+      "win_rate": 43.1,
+      "avg_r": -0.01,
+      "total_r": -0.67,
+      "profit_factor": 0.98,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 40,
+      "win_rate": 42.5,
+      "avg_r": 0.033,
+      "total_r": 1.31,
+      "profit_factor": 1.06,
+      "max_losing_streak": 5
+     }
+    },
+    "USDJPY": {
+     "is": {
+      "n": 62,
+      "win_rate": 35.5,
+      "avg_r": -0.246,
+      "total_r": -15.22,
+      "profit_factor": 0.62,
+      "max_losing_streak": 9
+     },
+     "oos": {
+      "n": 36,
+      "win_rate": 55.6,
+      "avg_r": 0.122,
+      "total_r": 4.39,
+      "profit_factor": 1.27,
+      "max_losing_streak": 4
+     }
+    },
+    "TOTAL": {
+     "is": {
+      "n": 314,
+      "win_rate": 45.9,
+      "avg_r": -0.042,
+      "total_r": -13.24,
+      "profit_factor": 0.92,
+      "max_losing_streak": 11
+     },
+     "oos": {
+      "n": 202,
+      "win_rate": 43.6,
+      "avg_r": -0.036,
+      "total_r": -7.18,
+      "profit_factor": 0.93,
+      "max_losing_streak": 8
+     }
+    }
+   },
+   "pairs_better_oos": 0,
+   "passes": false
+  },
+  "S1 Londres+NY": {
+   "hypothesis": "H1 sesión",
+   "eval": {
+    "XAUUSD": {
+     "is": {
+      "n": 37,
+      "win_rate": 70.3,
+      "avg_r": 0.264,
+      "total_r": 9.75,
+      "profit_factor": 1.89,
+      "max_losing_streak": 3
+     },
+     "oos": {
+      "n": 21,
+      "win_rate": 42.9,
+      "avg_r": -0.051,
+      "total_r": -1.06,
+      "profit_factor": 0.91,
+      "max_losing_streak": 3
+     }
+    },
+    "EURUSD": {
+     "is": {
+      "n": 32,
+      "win_rate": 40.6,
+      "avg_r": -0.196,
+      "total_r": -6.27,
+      "profit_factor": 0.67,
+      "max_losing_streak": 5
+     },
+     "oos": {
+      "n": 17,
+      "win_rate": 23.5,
+      "avg_r": -0.409,
+      "total_r": -6.96,
+      "profit_factor": 0.41,
+      "max_losing_streak": 7
+     }
+    },
+    "GBPUSD": {
+     "is": {
+      "n": 22,
+      "win_rate": 59.1,
+      "avg_r": 0.111,
+      "total_r": 2.45,
+      "profit_factor": 1.29,
+      "max_losing_streak": 3
+     },
+     "oos": {
+      "n": 18,
+      "win_rate": 33.3,
+      "avg_r": -0.248,
+      "total_r": -4.46,
+      "profit_factor": 0.61,
+      "max_losing_streak": 6
+     }
+    },
+    "US100": {
+     "is": {
+      "n": 27,
+      "win_rate": 48.1,
+      "avg_r": -0.03,
+      "total_r": -0.82,
+      "profit_factor": 0.94,
+      "max_losing_streak": 3
+     },
+     "oos": {
+      "n": 19,
+      "win_rate": 47.4,
+      "avg_r": 0.063,
+      "total_r": 1.2,
+      "profit_factor": 1.12,
+      "max_losing_streak": 3
+     }
+    },
+    "USDJPY": {
+     "is": {
+      "n": 19,
+      "win_rate": 31.6,
+      "avg_r": -0.288,
+      "total_r": -5.48,
+      "profit_factor": 0.58,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 12,
+      "win_rate": 75.0,
+      "avg_r": 0.582,
+      "total_r": 6.98,
+      "profit_factor": 3.33,
+      "max_losing_streak": 1
+     }
+    },
+    "TOTAL": {
+     "is": {
+      "n": 137,
+      "win_rate": 51.8,
+      "avg_r": -0.003,
+      "total_r": -0.36,
+      "profit_factor": 0.99,
+      "max_losing_streak": 5
+     },
+     "oos": {
+      "n": 87,
+      "win_rate": 42.5,
+      "avg_r": -0.049,
+      "total_r": -4.29,
+      "profit_factor": 0.91,
+      "max_losing_streak": 7
+     }
+    }
+   },
+   "pairs_better_oos": 2,
+   "passes": false
+  },
+  "S2 sesión por instrumento": {
+   "hypothesis": "H1 sesión",
+   "eval": {
+    "XAUUSD": {
+     "is": {
+      "n": 37,
+      "win_rate": 70.3,
+      "avg_r": 0.264,
+      "total_r": 9.75,
+      "profit_factor": 1.89,
+      "max_losing_streak": 3
+     },
+     "oos": {
+      "n": 21,
+      "win_rate": 42.9,
+      "avg_r": -0.051,
+      "total_r": -1.06,
+      "profit_factor": 0.91,
+      "max_losing_streak": 3
+     }
+    },
+    "EURUSD": {
+     "is": {
+      "n": 32,
+      "win_rate": 40.6,
+      "avg_r": -0.196,
+      "total_r": -6.27,
+      "profit_factor": 0.67,
+      "max_losing_streak": 5
+     },
+     "oos": {
+      "n": 17,
+      "win_rate": 23.5,
+      "avg_r": -0.409,
+      "total_r": -6.96,
+      "profit_factor": 0.41,
+      "max_losing_streak": 7
+     }
+    },
+    "GBPUSD": {
+     "is": {
+      "n": 22,
+      "win_rate": 59.1,
+      "avg_r": 0.111,
+      "total_r": 2.45,
+      "profit_factor": 1.29,
+      "max_losing_streak": 3
+     },
+     "oos": {
+      "n": 18,
+      "win_rate": 33.3,
+      "avg_r": -0.248,
+      "total_r": -4.46,
+      "profit_factor": 0.61,
+      "max_losing_streak": 6
+     }
+    },
+    "US100": {
+     "is": {
+      "n": 14,
+      "win_rate": 21.4,
+      "avg_r": -0.181,
+      "total_r": -2.53,
+      "profit_factor": 0.75,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 11,
+      "win_rate": 63.6,
+      "avg_r": 0.333,
+      "total_r": 3.66,
+      "profit_factor": 2.2,
+      "max_losing_streak": 2
+     }
+    },
+    "USDJPY": {
+     "is": {
+      "n": 19,
+      "win_rate": 31.6,
+      "avg_r": -0.288,
+      "total_r": -5.48,
+      "profit_factor": 0.58,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 12,
+      "win_rate": 75.0,
+      "avg_r": 0.582,
+      "total_r": 6.98,
+      "profit_factor": 3.33,
+      "max_losing_streak": 1
+     }
+    },
+    "TOTAL": {
+     "is": {
+      "n": 124,
+      "win_rate": 49.2,
+      "avg_r": -0.017,
+      "total_r": -2.07,
+      "profit_factor": 0.97,
+      "max_losing_streak": 7
+     },
+     "oos": {
+      "n": 79,
+      "win_rate": 44.3,
+      "avg_r": -0.023,
+      "total_r": -1.84,
+      "profit_factor": 0.95,
+      "max_losing_streak": 7
+     }
+    }
+   },
+   "pairs_better_oos": 2,
+   "passes": false
+  },
+  "B1 sesgo H4": {
+   "hypothesis": "H2 sesgo",
+   "eval": {
+    "XAUUSD": {
+     "is": {
+      "n": 69,
+      "win_rate": 63.8,
+      "avg_r": 0.216,
+      "total_r": 14.88,
+      "profit_factor": 1.6,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 42,
+      "win_rate": 38.1,
+      "avg_r": -0.076,
+      "total_r": -3.21,
+      "profit_factor": 0.87,
+      "max_losing_streak": 7
+     }
+    },
+    "EURUSD": {
+     "is": {
+      "n": 66,
+      "win_rate": 40.9,
+      "avg_r": -0.105,
+      "total_r": -6.92,
+      "profit_factor": 0.82,
+      "max_losing_streak": 9
+     },
+     "oos": {
+      "n": 39,
+      "win_rate": 41.0,
+      "avg_r": -0.09,
+      "total_r": -3.52,
+      "profit_factor": 0.83,
+      "max_losing_streak": 5
+     }
+    },
+    "GBPUSD": {
+     "is": {
+      "n": 45,
+      "win_rate": 42.2,
+      "avg_r": -0.143,
+      "total_r": -6.44,
+      "profit_factor": 0.73,
+      "max_losing_streak": 5
+     },
+     "oos": {
+      "n": 36,
+      "win_rate": 41.7,
+      "avg_r": -0.088,
+      "total_r": -3.18,
+      "profit_factor": 0.84,
+      "max_losing_streak": 8
+     }
+    },
+    "US100": {
+     "is": {
+      "n": 61,
+      "win_rate": 42.6,
+      "avg_r": -0.075,
+      "total_r": -4.58,
+      "profit_factor": 0.86,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 36,
+      "win_rate": 41.7,
+      "avg_r": 0.047,
+      "total_r": 1.7,
+      "profit_factor": 1.08,
+      "max_losing_streak": 6
+     }
+    },
+    "USDJPY": {
+     "is": {
+      "n": 60,
+      "win_rate": 36.7,
+      "avg_r": -0.237,
+      "total_r": -14.22,
+      "profit_factor": 0.63,
+      "max_losing_streak": 9
+     },
+     "oos": {
+      "n": 32,
+      "win_rate": 56.2,
+      "avg_r": 0.076,
+      "total_r": 2.43,
+      "profit_factor": 1.17,
+      "max_losing_streak": 4
+     }
+    },
+    "TOTAL": {
+     "is": {
+      "n": 301,
+      "win_rate": 45.8,
+      "avg_r": -0.057,
+      "total_r": -17.28,
+      "profit_factor": 0.89,
+      "max_losing_streak": 10
+     },
+     "oos": {
+      "n": 185,
+      "win_rate": 43.2,
+      "avg_r": -0.031,
+      "total_r": -5.78,
+      "profit_factor": 0.94,
+      "max_losing_streak": 8
+     }
+    }
+   },
+   "pairs_better_oos": 3,
+   "passes": false
+  },
+  "B2 sesgo D1": {
+   "hypothesis": "H2 sesgo",
+   "eval": {
+    "XAUUSD": {
+     "is": {
+      "n": 50,
+      "win_rate": 58.0,
+      "avg_r": 0.114,
+      "total_r": 5.7,
+      "profit_factor": 1.27,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 37,
+      "win_rate": 35.1,
+      "avg_r": -0.127,
+      "total_r": -4.7,
+      "profit_factor": 0.79,
+      "max_losing_streak": 7
+     }
+    },
+    "EURUSD": {
+     "is": {
+      "n": 52,
+      "win_rate": 40.4,
+      "avg_r": -0.14,
+      "total_r": -7.26,
+      "profit_factor": 0.77,
+      "max_losing_streak": 8
+     },
+     "oos": {
+      "n": 35,
+      "win_rate": 42.9,
+      "avg_r": -0.014,
+      "total_r": -0.49,
+      "profit_factor": 0.97,
+      "max_losing_streak": 3
+     }
+    },
+    "GBPUSD": {
+     "is": {
+      "n": 40,
+      "win_rate": 45.0,
+      "avg_r": -0.095,
+      "total_r": -3.79,
+      "profit_factor": 0.82,
+      "max_losing_streak": 5
+     },
+     "oos": {
+      "n": 28,
+      "win_rate": 39.3,
+      "avg_r": -0.172,
+      "total_r": -4.81,
+      "profit_factor": 0.71,
+      "max_losing_streak": 8
+     }
+    },
+    "US100": {
+     "is": {
+      "n": 41,
+      "win_rate": 43.9,
+      "avg_r": -0.063,
+      "total_r": -2.58,
+      "profit_factor": 0.88,
+      "max_losing_streak": 5
+     },
+     "oos": {
+      "n": 35,
+      "win_rate": 37.1,
+      "avg_r": -0.066,
+      "total_r": -2.33,
+      "profit_factor": 0.89,
+      "max_losing_streak": 6
+     }
+    },
+    "USDJPY": {
+     "is": {
+      "n": 45,
+      "win_rate": 37.8,
+      "avg_r": -0.255,
+      "total_r": -11.46,
+      "profit_factor": 0.59,
+      "max_losing_streak": 6
+     },
+     "oos": {
+      "n": 28,
+      "win_rate": 64.3,
+      "avg_r": 0.191,
+      "total_r": 5.34,
+      "profit_factor": 1.53,
+      "max_losing_streak": 3
+     }
+    },
+    "TOTAL": {
+     "is": {
+      "n": 228,
+      "win_rate": 45.2,
+      "avg_r": -0.085,
+      "total_r": -19.39,
+      "profit_factor": 0.84,
+      "max_losing_streak": 8
+     },
+     "oos": {
+      "n": 163,
+      "win_rate": 42.9,
+      "avg_r": -0.043,
+      "total_r": -6.99,
+      "profit_factor": 0.92,
+      "max_losing_streak": 8
+     }
+    }
+   },
+   "pairs_better_oos": 2,
+   "passes": false
+  },
+  "B3 sesgo H4+D1": {
+   "hypothesis": "H2 sesgo",
+   "eval": {
+    "XAUUSD": {
+     "is": {
+      "n": 50,
+      "win_rate": 58.0,
+      "avg_r": 0.114,
+      "total_r": 5.7,
+      "profit_factor": 1.27,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 37,
+      "win_rate": 35.1,
+      "avg_r": -0.127,
+      "total_r": -4.7,
+      "profit_factor": 0.79,
+      "max_losing_streak": 7
+     }
+    },
+    "EURUSD": {
+     "is": {
+      "n": 50,
+      "win_rate": 38.0,
+      "avg_r": -0.203,
+      "total_r": -10.16,
+      "profit_factor": 0.67,
+      "max_losing_streak": 8
+     },
+     "oos": {
+      "n": 34,
+      "win_rate": 41.2,
+      "avg_r": -0.049,
+      "total_r": -1.67,
+      "profit_factor": 0.91,
+      "max_losing_streak": 3
+     }
+    },
+    "GBPUSD": {
+     "is": {
+      "n": 39,
+      "win_rate": 46.2,
+      "avg_r": -0.071,
+      "total_r": -2.79,
+      "profit_factor": 0.86,
+      "max_losing_streak": 5
+     },
+     "oos": {
+      "n": 28,
+      "win_rate": 39.3,
+      "avg_r": -0.172,
+      "total_r": -4.81,
+      "profit_factor": 0.71,
+      "max_losing_streak": 8
+     }
+    },
+    "US100": {
+     "is": {
+      "n": 40,
+      "win_rate": 45.0,
+      "avg_r": -0.039,
+      "total_r": -1.58,
+      "profit_factor": 0.93,
+      "max_losing_streak": 5
+     },
+     "oos": {
+      "n": 35,
+      "win_rate": 37.1,
+      "avg_r": -0.066,
+      "total_r": -2.33,
+      "profit_factor": 0.89,
+      "max_losing_streak": 6
+     }
+    },
+    "USDJPY": {
+     "is": {
+      "n": 43,
+      "win_rate": 37.2,
+      "avg_r": -0.28,
+      "total_r": -12.04,
+      "profit_factor": 0.55,
+      "max_losing_streak": 6
+     },
+     "oos": {
+      "n": 26,
+      "win_rate": 65.4,
+      "avg_r": 0.223,
+      "total_r": 5.79,
+      "profit_factor": 1.64,
+      "max_losing_streak": 3
+     }
+    },
+    "TOTAL": {
+     "is": {
+      "n": 222,
+      "win_rate": 45.0,
+      "avg_r": -0.094,
+      "total_r": -20.87,
+      "profit_factor": 0.83,
+      "max_losing_streak": 8
+     },
+     "oos": {
+      "n": 160,
+      "win_rate": 42.5,
+      "avg_r": -0.048,
+      "total_r": -7.71,
+      "profit_factor": 0.91,
+      "max_losing_streak": 8
+     }
+    }
+   },
+   "pairs_better_oos": 2,
+   "passes": false
+  },
+  "R1 ADX M15>=25": {
+   "hypothesis": "H3 régimen",
+   "eval": {
+    "XAUUSD": {
+     "is": {
+      "n": 45,
+      "win_rate": 60.0,
+      "avg_r": 0.072,
+      "total_r": 3.25,
+      "profit_factor": 1.18,
+      "max_losing_streak": 5
+     },
+     "oos": {
+      "n": 27,
+      "win_rate": 37.0,
+      "avg_r": -0.107,
+      "total_r": -2.89,
+      "profit_factor": 0.81,
+      "max_losing_streak": 5
+     }
+    },
+    "EURUSD": {
+     "is": {
+      "n": 53,
+      "win_rate": 47.2,
+      "avg_r": 0.004,
+      "total_r": 0.24,
+      "profit_factor": 1.01,
+      "max_losing_streak": 5
+     },
+     "oos": {
+      "n": 36,
+      "win_rate": 30.6,
+      "avg_r": -0.347,
+      "total_r": -12.49,
+      "profit_factor": 0.46,
+      "max_losing_streak": 6
+     }
+    },
+    "GBPUSD": {
+     "is": {
+      "n": 33,
+      "win_rate": 48.5,
+      "avg_r": -0.124,
+      "total_r": -4.08,
+      "profit_factor": 0.74,
+      "max_losing_streak": 6
+     },
+     "oos": {
+      "n": 21,
+      "win_rate": 38.1,
+      "avg_r": -0.215,
+      "total_r": -4.52,
+      "profit_factor": 0.63,
+      "max_losing_streak": 4
+     }
+    },
+    "US100": {
+     "is": {
+      "n": 40,
+      "win_rate": 45.0,
+      "avg_r": -0.052,
+      "total_r": -2.08,
+      "profit_factor": 0.9,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 24,
+      "win_rate": 41.7,
+      "avg_r": 0.065,
+      "total_r": 1.57,
+      "profit_factor": 1.12,
+      "max_losing_streak": 3
+     }
+    },
+    "USDJPY": {
+     "is": {
+      "n": 38,
+      "win_rate": 36.8,
+      "avg_r": -0.256,
+      "total_r": -9.71,
+      "profit_factor": 0.6,
+      "max_losing_streak": 8
+     },
+     "oos": {
+      "n": 19,
+      "win_rate": 68.4,
+      "avg_r": 0.247,
+      "total_r": 4.68,
+      "profit_factor": 1.78,
+      "max_losing_streak": 2
+     }
+    },
+    "TOTAL": {
+     "is": {
+      "n": 209,
+      "win_rate": 47.8,
+      "avg_r": -0.059,
+      "total_r": -12.38,
+      "profit_factor": 0.88,
+      "max_losing_streak": 9
+     },
+     "oos": {
+      "n": 127,
+      "win_rate": 40.9,
+      "avg_r": -0.108,
+      "total_r": -13.66,
+      "profit_factor": 0.81,
+      "max_losing_streak": 6
+     }
+    }
+   },
+   "pairs_better_oos": 2,
+   "passes": false
+  },
+  "R2 ADX H1>=25": {
+   "hypothesis": "H3 régimen",
+   "eval": {
+    "XAUUSD": {
+     "is": {
+      "n": 53,
+      "win_rate": 64.2,
+      "avg_r": 0.265,
+      "total_r": 14.03,
+      "profit_factor": 1.74,
+      "max_losing_streak": 3
+     },
+     "oos": {
+      "n": 35,
+      "win_rate": 37.1,
+      "avg_r": -0.145,
+      "total_r": -5.06,
+      "profit_factor": 0.75,
+      "max_losing_streak": 6
+     }
+    },
+    "EURUSD": {
+     "is": {
+      "n": 52,
+      "win_rate": 40.4,
+      "avg_r": -0.174,
+      "total_r": -9.06,
+      "profit_factor": 0.71,
+      "max_losing_streak": 7
+     },
+     "oos": {
+      "n": 30,
+      "win_rate": 30.0,
+      "avg_r": -0.261,
+      "total_r": -7.83,
+      "profit_factor": 0.59,
+      "max_losing_streak": 5
+     }
+    },
+    "GBPUSD": {
+     "is": {
+      "n": 41,
+      "win_rate": 43.9,
+      "avg_r": -0.125,
+      "total_r": -5.13,
+      "profit_factor": 0.76,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 26,
+      "win_rate": 38.5,
+      "avg_r": -0.172,
+      "total_r": -4.47,
+      "profit_factor": 0.71,
+      "max_losing_streak": 6
+     }
+    },
+    "US100": {
+     "is": {
+      "n": 44,
+      "win_rate": 40.9,
+      "avg_r": -0.123,
+      "total_r": -5.39,
+      "profit_factor": 0.78,
+      "max_losing_streak": 5
+     },
+     "oos": {
+      "n": 36,
+      "win_rate": 38.9,
+      "avg_r": -0.013,
+      "total_r": -0.47,
+      "profit_factor": 0.98,
+      "max_losing_streak": 7
+     }
+    },
+    "USDJPY": {
+     "is": {
+      "n": 41,
+      "win_rate": 39.0,
+      "avg_r": -0.137,
+      "total_r": -5.63,
+      "profit_factor": 0.77,
+      "max_losing_streak": 6
+     },
+     "oos": {
+      "n": 21,
+      "win_rate": 57.1,
+      "avg_r": 0.081,
+      "total_r": 1.7,
+      "profit_factor": 1.19,
+      "max_losing_streak": 3
+     }
+    },
+    "TOTAL": {
+     "is": {
+      "n": 231,
+      "win_rate": 46.3,
+      "avg_r": -0.048,
+      "total_r": -11.19,
+      "profit_factor": 0.91,
+      "max_losing_streak": 7
+     },
+     "oos": {
+      "n": 148,
+      "win_rate": 39.2,
+      "avg_r": -0.109,
+      "total_r": -16.13,
+      "profit_factor": 0.81,
+      "max_losing_streak": 7
+     }
+    }
+   },
+   "pairs_better_oos": 0,
+   "passes": false
+  },
+  "R3 ATR pct>=50": {
+   "hypothesis": "H3 régimen",
+   "eval": {
+    "XAUUSD": {
+     "is": {
+      "n": 42,
+      "win_rate": 64.3,
+      "avg_r": 0.178,
+      "total_r": 7.48,
+      "profit_factor": 1.5,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 19,
+      "win_rate": 36.8,
+      "avg_r": 0.012,
+      "total_r": 0.22,
+      "profit_factor": 1.02,
+      "max_losing_streak": 5
+     }
+    },
+    "EURUSD": {
+     "is": {
+      "n": 41,
+      "win_rate": 46.3,
+      "avg_r": 0.005,
+      "total_r": 0.22,
+      "profit_factor": 1.01,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 31,
+      "win_rate": 29.0,
+      "avg_r": -0.352,
+      "total_r": -10.91,
+      "profit_factor": 0.46,
+      "max_losing_streak": 5
+     }
+    },
+    "GBPUSD": {
+     "is": {
+      "n": 30,
+      "win_rate": 46.7,
+      "avg_r": -0.068,
+      "total_r": -2.05,
+      "profit_factor": 0.86,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 26,
+      "win_rate": 38.5,
+      "avg_r": -0.169,
+      "total_r": -4.4,
+      "profit_factor": 0.71,
+      "max_losing_streak": 5
+     }
+    },
+    "US100": {
+     "is": {
+      "n": 33,
+      "win_rate": 45.5,
+      "avg_r": 0.084,
+      "total_r": 2.78,
+      "profit_factor": 1.17,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 15,
+      "win_rate": 46.7,
+      "avg_r": 0.156,
+      "total_r": 2.34,
+      "profit_factor": 1.31,
+      "max_losing_streak": 4
+     }
+    },
+    "USDJPY": {
+     "is": {
+      "n": 32,
+      "win_rate": 43.8,
+      "avg_r": 0.029,
+      "total_r": 0.92,
+      "profit_factor": 1.05,
+      "max_losing_streak": 6
+     },
+     "oos": {
+      "n": 23,
+      "win_rate": 56.5,
+      "avg_r": 0.046,
+      "total_r": 1.06,
+      "profit_factor": 1.11,
+      "max_losing_streak": 4
+     }
+    },
+    "TOTAL": {
+     "is": {
+      "n": 178,
+      "win_rate": 50.0,
+      "avg_r": 0.053,
+      "total_r": 9.36,
+      "profit_factor": 1.11,
+      "max_losing_streak": 8
+     },
+     "oos": {
+      "n": 114,
+      "win_rate": 40.4,
+      "avg_r": -0.102,
+      "total_r": -11.68,
+      "profit_factor": 0.82,
+      "max_losing_streak": 8
+     }
+    }
+   },
+   "pairs_better_oos": 2,
+   "passes": false
+  },
+  "R4 ATR pct 20-80": {
+   "hypothesis": "H3 régimen",
+   "eval": {
+    "XAUUSD": {
+     "is": {
+      "n": 34,
+      "win_rate": 55.9,
+      "avg_r": 0.081,
+      "total_r": 2.75,
+      "profit_factor": 1.18,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 20,
+      "win_rate": 30.0,
+      "avg_r": -0.313,
+      "total_r": -6.27,
+      "profit_factor": 0.54,
+      "max_losing_streak": 4
+     }
+    },
+    "EURUSD": {
+     "is": {
+      "n": 47,
+      "win_rate": 42.6,
+      "avg_r": -0.114,
+      "total_r": -5.36,
+      "profit_factor": 0.8,
+      "max_losing_streak": 7
+     },
+     "oos": {
+      "n": 25,
+      "win_rate": 40.0,
+      "avg_r": -0.172,
+      "total_r": -4.31,
+      "profit_factor": 0.7,
+      "max_losing_streak": 4
+     }
+    },
+    "GBPUSD": {
+     "is": {
+      "n": 30,
+      "win_rate": 50.0,
+      "avg_r": 0.024,
+      "total_r": 0.71,
+      "profit_factor": 1.05,
+      "max_losing_streak": 3
+     },
+     "oos": {
+      "n": 23,
+      "win_rate": 39.1,
+      "avg_r": -0.144,
+      "total_r": -3.32,
+      "profit_factor": 0.76,
+      "max_losing_streak": 6
+     }
+    },
+    "US100": {
+     "is": {
+      "n": 39,
+      "win_rate": 48.7,
+      "avg_r": 0.158,
+      "total_r": 6.17,
+      "profit_factor": 1.36,
+      "max_losing_streak": 5
+     },
+     "oos": {
+      "n": 25,
+      "win_rate": 56.0,
+      "avg_r": 0.36,
+      "total_r": 9.01,
+      "profit_factor": 1.82,
+      "max_losing_streak": 2
+     }
+    },
+    "USDJPY": {
+     "is": {
+      "n": 45,
+      "win_rate": 35.6,
+      "avg_r": -0.238,
+      "total_r": -10.7,
+      "profit_factor": 0.63,
+      "max_losing_streak": 12
+     },
+     "oos": {
+      "n": 17,
+      "win_rate": 58.8,
+      "avg_r": 0.291,
+      "total_r": 4.95,
+      "profit_factor": 1.71,
+      "max_losing_streak": 3
+     }
+    },
+    "TOTAL": {
+     "is": {
+      "n": 195,
+      "win_rate": 45.6,
+      "avg_r": -0.033,
+      "total_r": -6.43,
+      "profit_factor": 0.94,
+      "max_losing_streak": 12
+     },
+     "oos": {
+      "n": 110,
+      "win_rate": 44.5,
+      "avg_r": 0.001,
+      "total_r": 0.07,
+      "profit_factor": 1.0,
+      "max_losing_streak": 6
+     }
+    }
+   },
+   "pairs_better_oos": 2,
+   "passes": false
+  },
+  "C1 score>=65": {
+   "hypothesis": "H4 score",
+   "eval": {
+    "XAUUSD": {
+     "is": {
+      "n": 64,
+      "win_rate": 62.5,
+      "avg_r": 0.155,
+      "total_r": 9.94,
+      "profit_factor": 1.41,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 37,
+      "win_rate": 37.8,
+      "avg_r": -0.046,
+      "total_r": -1.69,
+      "profit_factor": 0.92,
+      "max_losing_streak": 6
+     }
+    },
+    "EURUSD": {
+     "is": {
+      "n": 58,
+      "win_rate": 36.2,
+      "avg_r": -0.206,
+      "total_r": -11.96,
+      "profit_factor": 0.68,
+      "max_losing_streak": 10
+     },
+     "oos": {
+      "n": 34,
+      "win_rate": 32.4,
+      "avg_r": -0.255,
+      "total_r": -8.66,
+      "profit_factor": 0.6,
+      "max_losing_streak": 7
+     }
+    },
+    "GBPUSD": {
+     "is": {
+      "n": 41,
+      "win_rate": 41.5,
+      "avg_r": -0.224,
+      "total_r": -9.18,
+      "profit_factor": 0.59,
+      "max_losing_streak": 6
+     },
+     "oos": {
+      "n": 33,
+      "win_rate": 39.4,
+      "avg_r": -0.211,
+      "total_r": -6.96,
+      "profit_factor": 0.64,
+      "max_losing_streak": 8
+     }
+    },
+    "US100": {
+     "is": {
+      "n": 55,
+      "win_rate": 43.6,
+      "avg_r": -0.056,
+      "total_r": -3.07,
+      "profit_factor": 0.89,
+      "max_losing_streak": 3
+     },
+     "oos": {
+      "n": 33,
+      "win_rate": 42.4,
+      "avg_r": 0.066,
+      "total_r": 2.18,
+      "profit_factor": 1.12,
+      "max_losing_streak": 5
+     }
+    },
+    "USDJPY": {
+     "is": {
+      "n": 52,
+      "win_rate": 32.7,
+      "avg_r": -0.375,
+      "total_r": -19.48,
+      "profit_factor": 0.44,
+      "max_losing_streak": 8
+     },
+     "oos": {
+      "n": 30,
+      "win_rate": 60.0,
+      "avg_r": 0.146,
+      "total_r": 4.37,
+      "profit_factor": 1.36,
+      "max_losing_streak": 3
+     }
+    },
+    "TOTAL": {
+     "is": {
+      "n": 270,
+      "win_rate": 44.1,
+      "avg_r": -0.125,
+      "total_r": -33.75,
+      "profit_factor": 0.77,
+      "max_losing_streak": 10
+     },
+     "oos": {
+      "n": 167,
+      "win_rate": 41.9,
+      "avg_r": -0.064,
+      "total_r": -10.76,
+      "profit_factor": 0.88,
+      "max_losing_streak": 8
+     }
+    }
+   },
+   "pairs_better_oos": 3,
+   "passes": false
+  },
+  "C2 score>=75": {
+   "hypothesis": "H4 score",
+   "eval": {
+    "XAUUSD": {
+     "is": {
+      "n": 20,
+      "win_rate": 70.0,
+      "avg_r": 0.402,
+      "total_r": 8.03,
+      "profit_factor": 2.34,
+      "max_losing_streak": 3
+     },
+     "oos": {
+      "n": 13,
+      "win_rate": 46.2,
+      "avg_r": -0.09,
+      "total_r": -1.17,
+      "profit_factor": 0.82,
+      "max_losing_streak": 2
+     }
+    },
+    "EURUSD": {
+     "is": {
+      "n": 14,
+      "win_rate": 50.0,
+      "avg_r": -0.137,
+      "total_r": -1.92,
+      "profit_factor": 0.73,
+      "max_losing_streak": 3
+     },
+     "oos": {
+      "n": 17,
+      "win_rate": 23.5,
+      "avg_r": -0.547,
+      "total_r": -9.29,
+      "profit_factor": 0.26,
+      "max_losing_streak": 9
+     }
+    },
+    "GBPUSD": {
+     "is": {
+      "n": 17,
+      "win_rate": 35.3,
+      "avg_r": -0.231,
+      "total_r": -3.93,
+      "profit_factor": 0.59,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 16,
+      "win_rate": 43.8,
+      "avg_r": -0.013,
+      "total_r": -0.22,
+      "profit_factor": 0.97,
+      "max_losing_streak": 6
+     }
+    },
+    "US100": {
+     "is": {
+      "n": 23,
+      "win_rate": 39.1,
+      "avg_r": -0.255,
+      "total_r": -5.87,
+      "profit_factor": 0.55,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 10,
+      "win_rate": 60.0,
+      "avg_r": 0.662,
+      "total_r": 6.62,
+      "profit_factor": 2.87,
+      "max_losing_streak": 2
+     }
+    },
+    "USDJPY": {
+     "is": {
+      "n": 15,
+      "win_rate": 40.0,
+      "avg_r": -0.309,
+      "total_r": -4.63,
+      "profit_factor": 0.49,
+      "max_losing_streak": 3
+     },
+     "oos": {
+      "n": 12,
+      "win_rate": 58.3,
+      "avg_r": 0.135,
+      "total_r": 1.62,
+      "profit_factor": 1.32,
+      "max_losing_streak": 2
+     }
+    },
+    "TOTAL": {
+     "is": {
+      "n": 89,
+      "win_rate": 47.2,
+      "avg_r": -0.094,
+      "total_r": -8.32,
+      "profit_factor": 0.81,
+      "max_losing_streak": 7
+     },
+     "oos": {
+      "n": 68,
+      "win_rate": 44.1,
+      "avg_r": -0.036,
+      "total_r": -2.44,
+      "profit_factor": 0.93,
+      "max_losing_streak": 9
+     }
+    }
+   },
+   "pairs_better_oos": 3,
+   "passes": false
+  },
+  "G1 solo envolvente": {
+   "hypothesis": "H5 gatillo",
+   "eval": {
+    "XAUUSD": {
+     "is": {
+      "n": 27,
+      "win_rate": 63.0,
+      "avg_r": 0.182,
+      "total_r": 4.9,
+      "profit_factor": 1.52,
+      "max_losing_streak": 3
+     },
+     "oos": {
+      "n": 18,
+      "win_rate": 33.3,
+      "avg_r": -0.375,
+      "total_r": -6.75,
+      "profit_factor": 0.41,
+      "max_losing_streak": 6
+     }
+    },
+    "EURUSD": {
+     "is": {
+      "n": 45,
+      "win_rate": 48.9,
+      "avg_r": 0.027,
+      "total_r": 1.24,
+      "profit_factor": 1.05,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 25,
+      "win_rate": 48.0,
+      "avg_r": -0.033,
+      "total_r": -0.82,
+      "profit_factor": 0.93,
+      "max_losing_streak": 3
+     }
+    },
+    "GBPUSD": {
+     "is": {
+      "n": 25,
+      "win_rate": 52.0,
+      "avg_r": 0.117,
+      "total_r": 2.91,
+      "profit_factor": 1.28,
+      "max_losing_streak": 3
+     },
+     "oos": {
+      "n": 24,
+      "win_rate": 41.7,
+      "avg_r": -0.092,
+      "total_r": -2.2,
+      "profit_factor": 0.84,
+      "max_losing_streak": 7
+     }
+    },
+    "US100": {
+     "is": {
+      "n": 30,
+      "win_rate": 46.7,
+      "avg_r": 0.138,
+      "total_r": 4.15,
+      "profit_factor": 1.28,
+      "max_losing_streak": 3
+     },
+     "oos": {
+      "n": 14,
+      "win_rate": 28.6,
+      "avg_r": -0.21,
+      "total_r": -2.93,
+      "profit_factor": 0.67,
+      "max_losing_streak": 3
+     }
+    },
+    "USDJPY": {
+     "is": {
+      "n": 28,
+      "win_rate": 32.1,
+      "avg_r": -0.395,
+      "total_r": -11.06,
+      "profit_factor": 0.42,
+      "max_losing_streak": 5
+     },
+     "oos": {
+      "n": 18,
+      "win_rate": 55.6,
+      "avg_r": 0.199,
+      "total_r": 3.58,
+      "profit_factor": 1.45,
+      "max_losing_streak": 3
+     }
+    },
+    "TOTAL": {
+     "is": {
+      "n": 155,
+      "win_rate": 48.4,
+      "avg_r": 0.014,
+      "total_r": 2.14,
+      "profit_factor": 1.03,
+      "max_losing_streak": 6
+     },
+     "oos": {
+      "n": 99,
+      "win_rate": 42.4,
+      "avg_r": -0.092,
+      "total_r": -9.13,
+      "profit_factor": 0.83,
+      "max_losing_streak": 7
+     }
+    }
+   },
+   "pairs_better_oos": 3,
+   "passes": false
+  },
+  "G2 solo pin bar": {
+   "hypothesis": "H5 gatillo",
+   "eval": {
+    "XAUUSD": {
+     "is": {
+      "n": 40,
+      "win_rate": 75.0,
+      "avg_r": 0.529,
+      "total_r": 21.18,
+      "profit_factor": 3.12,
+      "max_losing_streak": 3
+     },
+     "oos": {
+      "n": 25,
+      "win_rate": 40.0,
+      "avg_r": 0.019,
+      "total_r": 0.47,
+      "profit_factor": 1.03,
+      "max_losing_streak": 6
+     }
+    },
+    "EURUSD": {
+     "is": {
+      "n": 35,
+      "win_rate": 31.4,
+      "avg_r": -0.318,
+      "total_r": -11.11,
+      "profit_factor": 0.54,
+      "max_losing_streak": 11
+     },
+     "oos": {
+      "n": 25,
+      "win_rate": 40.0,
+      "avg_r": -0.07,
+      "total_r": -1.76,
+      "profit_factor": 0.88,
+      "max_losing_streak": 4
+     }
+    },
+    "GBPUSD": {
+     "is": {
+      "n": 27,
+      "win_rate": 37.0,
+      "avg_r": -0.219,
+      "total_r": -5.91,
+      "profit_factor": 0.62,
+      "max_losing_streak": 5
+     },
+     "oos": {
+      "n": 23,
+      "win_rate": 43.5,
+      "avg_r": -0.045,
+      "total_r": -1.04,
+      "profit_factor": 0.92,
+      "max_losing_streak": 5
+     }
+    },
+    "US100": {
+     "is": {
+      "n": 30,
+      "win_rate": 43.3,
+      "avg_r": 0.067,
+      "total_r": 2.01,
+      "profit_factor": 1.12,
+      "max_losing_streak": 3
+     },
+     "oos": {
+      "n": 26,
+      "win_rate": 50.0,
+      "avg_r": 0.183,
+      "total_r": 4.76,
+      "profit_factor": 1.38,
+      "max_losing_streak": 3
+     }
+    },
+    "USDJPY": {
+     "is": {
+      "n": 31,
+      "win_rate": 41.9,
+      "avg_r": -0.01,
+      "total_r": -0.31,
+      "profit_factor": 0.98,
+      "max_losing_streak": 5
+     },
+     "oos": {
+      "n": 21,
+      "win_rate": 61.9,
+      "avg_r": 0.235,
+      "total_r": 4.93,
+      "profit_factor": 1.62,
+      "max_losing_streak": 3
+     }
+    },
+    "TOTAL": {
+     "is": {
+      "n": 163,
+      "win_rate": 47.2,
+      "avg_r": 0.036,
+      "total_r": 5.86,
+      "profit_factor": 1.07,
+      "max_losing_streak": 11
+     },
+     "oos": {
+      "n": 120,
+      "win_rate": 46.7,
+      "avg_r": 0.061,
+      "total_r": 7.36,
+      "profit_factor": 1.12,
+      "max_losing_streak": 6
+     }
+    }
+   },
+   "pairs_better_oos": 5,
+   "passes": true
+  },
+  "G3 solo ruptura": {
+   "hypothesis": "H5 gatillo",
+   "eval": {
+    "XAUUSD": {
+     "is": {
+      "n": 29,
+      "win_rate": 55.2,
+      "avg_r": 0.015,
+      "total_r": 0.45,
+      "profit_factor": 1.03,
+      "max_losing_streak": 5
+     },
+     "oos": {
+      "n": 18,
+      "win_rate": 33.3,
+      "avg_r": -0.144,
+      "total_r": -2.59,
+      "profit_factor": 0.77,
+      "max_losing_streak": 3
+     }
+    },
+    "EURUSD": {
+     "is": {
+      "n": 23,
+      "win_rate": 26.1,
+      "avg_r": -0.573,
+      "total_r": -13.18,
+      "profit_factor": 0.22,
+      "max_losing_streak": 7
+     },
+     "oos": {
+      "n": 16,
+      "win_rate": 37.5,
+      "avg_r": -0.395,
+      "total_r": -6.32,
+      "profit_factor": 0.28,
+      "max_losing_streak": 4
+     }
+    },
+    "GBPUSD": {
+     "is": {
+      "n": 15,
+      "win_rate": 33.3,
+      "avg_r": -0.178,
+      "total_r": -2.67,
+      "profit_factor": 0.65,
+      "max_losing_streak": 3
+     },
+     "oos": {
+      "n": 12,
+      "win_rate": 25.0,
+      "avg_r": -0.442,
+      "total_r": -5.31,
+      "profit_factor": 0.36,
+      "max_losing_streak": 5
+     }
+    },
+    "US100": {
+     "is": {
+      "n": 21,
+      "win_rate": 38.1,
+      "avg_r": -0.157,
+      "total_r": -3.3,
+      "profit_factor": 0.71,
+      "max_losing_streak": 3
+     },
+     "oos": {
+      "n": 11,
+      "win_rate": 54.5,
+      "avg_r": 0.164,
+      "total_r": 1.8,
+      "profit_factor": 1.36,
+      "max_losing_streak": 3
+     }
+    },
+    "USDJPY": {
+     "is": {
+      "n": 26,
+      "win_rate": 34.6,
+      "avg_r": -0.409,
+      "total_r": -10.62,
+      "profit_factor": 0.38,
+      "max_losing_streak": 7
+     },
+     "oos": {
+      "n": 6,
+      "win_rate": 50.0,
+      "avg_r": -0.172,
+      "total_r": -1.03,
+      "profit_factor": 0.66,
+      "max_losing_streak": 2
+     }
+    },
+    "TOTAL": {
+     "is": {
+      "n": 114,
+      "win_rate": 38.6,
+      "avg_r": -0.257,
+      "total_r": -29.33,
+      "profit_factor": 0.55,
+      "max_losing_streak": 10
+     },
+     "oos": {
+      "n": 63,
+      "win_rate": 38.1,
+      "avg_r": -0.213,
+      "total_r": -13.45,
+      "profit_factor": 0.63,
+      "max_losing_streak": 5
+     }
+    }
+   },
+   "pairs_better_oos": 1,
+   "passes": false
+  },
+  "G4 sin ruptura": {
+   "hypothesis": "H5 gatillo",
+   "eval": {
+    "XAUUSD": {
+     "is": {
+      "n": 58,
+      "win_rate": 67.2,
+      "avg_r": 0.316,
+      "total_r": 18.33,
+      "profit_factor": 1.96,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 35,
+      "win_rate": 42.9,
+      "avg_r": -0.019,
+      "total_r": -0.65,
+      "profit_factor": 0.97,
+      "max_losing_streak": 7
+     }
+    },
+    "EURUSD": {
+     "is": {
+      "n": 63,
+      "win_rate": 44.4,
+      "avg_r": -0.02,
+      "total_r": -1.28,
+      "profit_factor": 0.96,
+      "max_losing_streak": 7
+     },
+     "oos": {
+      "n": 37,
+      "win_rate": 43.2,
+      "avg_r": -0.023,
+      "total_r": -0.84,
+      "profit_factor": 0.96,
+      "max_losing_streak": 5
+     }
+    },
+    "GBPUSD": {
+     "is": {
+      "n": 44,
+      "win_rate": 47.7,
+      "avg_r": -0.046,
+      "total_r": -2.03,
+      "profit_factor": 0.91,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 38,
+      "win_rate": 42.1,
+      "avg_r": -0.123,
+      "total_r": -4.67,
+      "profit_factor": 0.78,
+      "max_losing_streak": 8
+     }
+    },
+    "US100": {
+     "is": {
+      "n": 50,
+      "win_rate": 44.0,
+      "avg_r": 0.044,
+      "total_r": 2.2,
+      "profit_factor": 1.08,
+      "max_losing_streak": 3
+     },
+     "oos": {
+      "n": 36,
+      "win_rate": 41.7,
+      "avg_r": 0.044,
+      "total_r": 1.59,
+      "profit_factor": 1.08,
+      "max_losing_streak": 4
+     }
+    },
+    "USDJPY": {
+     "is": {
+      "n": 48,
+      "win_rate": 39.6,
+      "avg_r": -0.151,
+      "total_r": -7.23,
+      "profit_factor": 0.75,
+      "max_losing_streak": 8
+     },
+     "oos": {
+      "n": 32,
+      "win_rate": 56.2,
+      "avg_r": 0.169,
+      "total_r": 5.41,
+      "profit_factor": 1.39,
+      "max_losing_streak": 4
+     }
+    },
+    "TOTAL": {
+     "is": {
+      "n": 263,
+      "win_rate": 49.0,
+      "avg_r": 0.038,
+      "total_r": 9.98,
+      "profit_factor": 1.08,
+      "max_losing_streak": 9
+     },
+     "oos": {
+      "n": 178,
+      "win_rate": 44.9,
+      "avg_r": 0.005,
+      "total_r": 0.84,
+      "profit_factor": 1.01,
+      "max_losing_streak": 8
+     }
+    }
+   },
+   "pairs_better_oos": 5,
+   "passes": false
+  },
+  "X1 todo en TP1": {
+   "hypothesis": "H6 salida",
+   "eval": {
+    "XAUUSD": {
+     "is": {
+      "n": 71,
+      "win_rate": 60.6,
+      "avg_r": 0.261,
+      "total_r": 18.52,
+      "profit_factor": 1.68,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 42,
+      "win_rate": 40.5,
+      "avg_r": -0.102,
+      "total_r": -4.3,
+      "profit_factor": 0.82,
+      "max_losing_streak": 7
+     }
+    },
+    "EURUSD": {
+     "is": {
+      "n": 73,
+      "win_rate": 39.7,
+      "avg_r": -0.154,
+      "total_r": -11.27,
+      "profit_factor": 0.74,
+      "max_losing_streak": 8
+     },
+     "oos": {
+      "n": 43,
+      "win_rate": 39.5,
+      "avg_r": -0.103,
+      "total_r": -4.42,
+      "profit_factor": 0.82,
+      "max_losing_streak": 5
+     }
+    },
+    "GBPUSD": {
+     "is": {
+      "n": 48,
+      "win_rate": 45.8,
+      "avg_r": -0.043,
+      "total_r": -2.06,
+      "profit_factor": 0.92,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 41,
+      "win_rate": 43.9,
+      "avg_r": -0.037,
+      "total_r": -1.52,
+      "profit_factor": 0.93,
+      "max_losing_streak": 8
+     }
+    },
+    "US100": {
+     "is": {
+      "n": 66,
+      "win_rate": 43.9,
+      "avg_r": -0.022,
+      "total_r": -1.48,
+      "profit_factor": 0.96,
+      "max_losing_streak": 3
+     },
+     "oos": {
+      "n": 42,
+      "win_rate": 42.9,
+      "avg_r": -0.014,
+      "total_r": -0.57,
+      "profit_factor": 0.98,
+      "max_losing_streak": 5
+     }
+    },
+    "USDJPY": {
+     "is": {
+      "n": 62,
+      "win_rate": 35.5,
+      "avg_r": -0.299,
+      "total_r": -18.57,
+      "profit_factor": 0.54,
+      "max_losing_streak": 9
+     },
+     "oos": {
+      "n": 36,
+      "win_rate": 52.8,
+      "avg_r": 0.092,
+      "total_r": 3.31,
+      "profit_factor": 1.21,
+      "max_losing_streak": 4
+     }
+    },
+    "TOTAL": {
+     "is": {
+      "n": 320,
+      "win_rate": 45.3,
+      "avg_r": -0.046,
+      "total_r": -14.85,
+      "profit_factor": 0.91,
+      "max_losing_streak": 11
+     },
+     "oos": {
+      "n": 204,
+      "win_rate": 43.6,
+      "avg_r": -0.037,
+      "total_r": -7.5,
+      "profit_factor": 0.93,
+      "max_losing_streak": 8
+     }
+    }
+   },
+   "pairs_better_oos": 2,
+   "passes": false
+  },
+  "X2 fijo 1.5R": {
+   "hypothesis": "H6 salida",
+   "eval": {
+    "XAUUSD": {
+     "is": {
+      "n": 69,
+      "win_rate": 52.2,
+      "avg_r": 0.244,
+      "total_r": 16.81,
+      "profit_factor": 1.51,
+      "max_losing_streak": 5
+     },
+     "oos": {
+      "n": 43,
+      "win_rate": 41.9,
+      "avg_r": 0.044,
+      "total_r": 1.89,
+      "profit_factor": 1.08,
+      "max_losing_streak": 7
+     }
+    },
+    "EURUSD": {
+     "is": {
+      "n": 73,
+      "win_rate": 35.6,
+      "avg_r": -0.138,
+      "total_r": -10.08,
+      "profit_factor": 0.78,
+      "max_losing_streak": 9
+     },
+     "oos": {
+      "n": 41,
+      "win_rate": 34.1,
+      "avg_r": -0.15,
+      "total_r": -6.14,
+      "profit_factor": 0.76,
+      "max_losing_streak": 5
+     }
+    },
+    "GBPUSD": {
+     "is": {
+      "n": 45,
+      "win_rate": 42.2,
+      "avg_r": -0.054,
+      "total_r": -2.42,
+      "profit_factor": 0.9,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 40,
+      "win_rate": 35.0,
+      "avg_r": -0.108,
+      "total_r": -4.31,
+      "profit_factor": 0.83,
+      "max_losing_streak": 8
+     }
+    },
+    "US100": {
+     "is": {
+      "n": 64,
+      "win_rate": 40.6,
+      "avg_r": 0.043,
+      "total_r": 2.73,
+      "profit_factor": 1.08,
+      "max_losing_streak": 5
+     },
+     "oos": {
+      "n": 41,
+      "win_rate": 39.0,
+      "avg_r": -0.017,
+      "total_r": -0.71,
+      "profit_factor": 0.97,
+      "max_losing_streak": 5
+     }
+    },
+    "USDJPY": {
+     "is": {
+      "n": 61,
+      "win_rate": 29.5,
+      "avg_r": -0.276,
+      "total_r": -16.83,
+      "profit_factor": 0.61,
+      "max_losing_streak": 15
+     },
+     "oos": {
+      "n": 34,
+      "win_rate": 47.1,
+      "avg_r": 0.145,
+      "total_r": 4.92,
+      "profit_factor": 1.27,
+      "max_losing_streak": 4
+     }
+    },
+    "TOTAL": {
+     "is": {
+      "n": 312,
+      "win_rate": 40.1,
+      "avg_r": -0.031,
+      "total_r": -9.79,
+      "profit_factor": 0.95,
+      "max_losing_streak": 17
+     },
+     "oos": {
+      "n": 199,
+      "win_rate": 39.2,
+      "avg_r": -0.022,
+      "total_r": -4.36,
+      "profit_factor": 0.96,
+      "max_losing_streak": 8
+     }
+    }
+   },
+   "pairs_better_oos": 3,
+   "passes": false
+  },
+  "X3 fijo 2R": {
+   "hypothesis": "H6 salida",
+   "eval": {
+    "XAUUSD": {
+     "is": {
+      "n": 67,
+      "win_rate": 46.3,
+      "avg_r": 0.29,
+      "total_r": 19.42,
+      "profit_factor": 1.54,
+      "max_losing_streak": 6
+     },
+     "oos": {
+      "n": 42,
+      "win_rate": 38.1,
+      "avg_r": 0.128,
+      "total_r": 5.39,
+      "profit_factor": 1.22,
+      "max_losing_streak": 7
+     }
+    },
+    "EURUSD": {
+     "is": {
+      "n": 71,
+      "win_rate": 32.4,
+      "avg_r": -0.092,
+      "total_r": -6.53,
+      "profit_factor": 0.86,
+      "max_losing_streak": 9
+     },
+     "oos": {
+      "n": 41,
+      "win_rate": 31.7,
+      "avg_r": -0.114,
+      "total_r": -4.69,
+      "profit_factor": 0.82,
+      "max_losing_streak": 5
+     }
+    },
+    "GBPUSD": {
+     "is": {
+      "n": 44,
+      "win_rate": 36.4,
+      "avg_r": -0.114,
+      "total_r": -5.01,
+      "profit_factor": 0.81,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 38,
+      "win_rate": 28.9,
+      "avg_r": -0.14,
+      "total_r": -5.34,
+      "profit_factor": 0.8,
+      "max_losing_streak": 8
+     }
+    },
+    "US100": {
+     "is": {
+      "n": 64,
+      "win_rate": 32.8,
+      "avg_r": 0.011,
+      "total_r": 0.73,
+      "profit_factor": 1.02,
+      "max_losing_streak": 8
+     },
+     "oos": {
+      "n": 40,
+      "win_rate": 37.5,
+      "avg_r": 0.081,
+      "total_r": 3.22,
+      "profit_factor": 1.13,
+      "max_losing_streak": 5
+     }
+    },
+    "USDJPY": {
+     "is": {
+      "n": 62,
+      "win_rate": 25.8,
+      "avg_r": -0.247,
+      "total_r": -15.33,
+      "profit_factor": 0.67,
+      "max_losing_streak": 15
+     },
+     "oos": {
+      "n": 34,
+      "win_rate": 44.1,
+      "avg_r": 0.229,
+      "total_r": 7.78,
+      "profit_factor": 1.41,
+      "max_losing_streak": 4
+     }
+    },
+    "TOTAL": {
+     "is": {
+      "n": 308,
+      "win_rate": 34.7,
+      "avg_r": -0.022,
+      "total_r": -6.72,
+      "profit_factor": 0.97,
+      "max_losing_streak": 17
+     },
+     "oos": {
+      "n": 195,
+      "win_rate": 35.9,
+      "avg_r": 0.033,
+      "total_r": 6.36,
+      "profit_factor": 1.05,
+      "max_losing_streak": 8
+     }
+    }
+   },
+   "pairs_better_oos": 4,
+   "passes": false
+  },
+  "X4 parcial sin BE": {
+   "hypothesis": "H6 salida",
+   "eval": {
+    "XAUUSD": {
+     "is": {
+      "n": 67,
+      "win_rate": 56.7,
+      "avg_r": 0.14,
+      "total_r": 9.4,
+      "profit_factor": 1.35,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 41,
+      "win_rate": 39.0,
+      "avg_r": -0.018,
+      "total_r": -0.73,
+      "profit_factor": 0.97,
+      "max_losing_streak": 7
+     }
+    },
+    "EURUSD": {
+     "is": {
+      "n": 70,
+      "win_rate": 40.0,
+      "avg_r": -0.092,
+      "total_r": -6.46,
+      "profit_factor": 0.84,
+      "max_losing_streak": 8
+     },
+     "oos": {
+      "n": 39,
+      "win_rate": 35.9,
+      "avg_r": -0.159,
+      "total_r": -6.22,
+      "profit_factor": 0.71,
+      "max_losing_streak": 7
+     }
+    },
+    "GBPUSD": {
+     "is": {
+      "n": 44,
+      "win_rate": 43.2,
+      "avg_r": -0.095,
+      "total_r": -4.18,
+      "profit_factor": 0.81,
+      "max_losing_streak": 4
+     },
+     "oos": {
+      "n": 39,
+      "win_rate": 38.5,
+      "avg_r": -0.096,
+      "total_r": -3.74,
+      "profit_factor": 0.83,
+      "max_losing_streak": 8
+     }
+    },
+    "US100": {
+     "is": {
+      "n": 64,
+      "win_rate": 37.5,
+      "avg_r": -0.019,
+      "total_r": -1.24,
+      "profit_factor": 0.96,
+      "max_losing_streak": 6
+     },
+     "oos": {
+      "n": 39,
+      "win_rate": 38.5,
+      "avg_r": 0.011,
+      "total_r": 0.43,
+      "profit_factor": 1.02,
+      "max_losing_streak": 5
+     }
+    },
+    "USDJPY": {
+     "is": {
+      "n": 61,
+      "win_rate": 27.9,
+      "avg_r": -0.278,
+      "total_r": -16.99,
+      "profit_factor": 0.57,
+      "max_losing_streak": 15
+     },
+     "oos": {
+      "n": 34,
+      "win_rate": 47.1,
+      "avg_r": 0.187,
+      "total_r": 6.34,
+      "profit_factor": 1.4,
+      "max_losing_streak": 4
+     }
+    },
+    "TOTAL": {
+     "is": {
+      "n": 306,
+      "win_rate": 41.2,
+      "avg_r": -0.064,
+      "total_r": -19.46,
+      "profit_factor": 0.88,
+      "max_losing_streak": 17
+     },
+     "oos": {
+      "n": 192,
+      "win_rate": 39.6,
+      "avg_r": -0.02,
+      "total_r": -3.91,
+      "profit_factor": 0.96,
+      "max_losing_streak": 8
+     }
+    }
+   },
+   "pairs_better_oos": 3,
+   "passes": false
+  },
+  "X5 sin niveles (1.5R/3R)": {
+   "hypothesis": "H6 salida",
+   "eval": {
+    "XAUUSD": {
+     "is": {
+      "n": 554,
+      "win_rate": 48.0,
+      "avg_r": 0.088,
+      "total_r": 48.93,
+      "profit_factor": 1.17,
+      "max_losing_streak": 9
+     },
+     "oos": {
+      "n": 346,
+      "win_rate": 45.4,
+      "avg_r": -0.01,
+      "total_r": -3.63,
+      "profit_factor": 0.98,
+      "max_losing_streak": 7
+     }
+    },
+    "EURUSD": {
+     "is": {
+      "n": 611,
+      "win_rate": 44.7,
+      "avg_r": -0.021,
+      "total_r": -13.01,
+      "profit_factor": 0.96,
+      "max_losing_streak": 9
+     },
+     "oos": {
+      "n": 430,
+      "win_rate": 43.3,
+      "avg_r": -0.092,
+      "total_r": -39.69,
+      "profit_factor": 0.83,
+      "max_losing_streak": 8
+     }
+    },
+    "GBPUSD": {
+     "is": {
+      "n": 495,
+      "win_rate": 40.2,
+      "avg_r": -0.152,
+      "total_r": -75.04,
+      "profit_factor": 0.73,
+      "max_losing_streak": 16
+     },
+     "oos": {
+      "n": 413,
+      "win_rate": 45.3,
+      "avg_r": -0.068,
+      "total_r": -28.13,
+      "profit_factor": 0.87,
+      "max_losing_streak": 9
+     }
+    },
+    "US100": {
+     "is": {
+      "n": 541,
+      "win_rate": 44.2,
+      "avg_r": -0.017,
+      "total_r": -8.96,
+      "profit_factor": 0.97,
+      "max_losing_streak": 12
+     },
+     "oos": {
+      "n": 336,
+      "win_rate": 47.6,
+      "avg_r": 0.056,
+      "total_r": 18.87,
+      "profit_factor": 1.11,
+      "max_losing_streak": 13
+     }
+    },
+    "USDJPY": {
+     "is": {
+      "n": 543,
+      "win_rate": 39.4,
+      "avg_r": -0.165,
+      "total_r": -89.78,
+      "profit_factor": 0.71,
+      "max_losing_streak": 10
+     },
+     "oos": {
+      "n": 366,
+      "win_rate": 47.0,
+      "avg_r": -0.059,
+      "total_r": -21.69,
+      "profit_factor": 0.88,
+      "max_losing_streak": 7
+     }
+    },
+    "TOTAL": {
+     "is": {
+      "n": 2744,
+      "win_rate": 43.4,
+      "avg_r": -0.05,
+      "total_r": -137.87,
+      "profit_factor": 0.91,
+      "max_losing_streak": 16
+     },
+     "oos": {
+      "n": 1891,
+      "win_rate": 45.6,
+      "avg_r": -0.039,
+      "total_r": -74.26,
+      "profit_factor": 0.92,
+      "max_losing_streak": 13
+     }
+    }
+   },
+   "pairs_better_oos": 4,
+   "passes": false
+  }
+ }
+}

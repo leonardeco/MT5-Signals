@@ -1,0 +1,120 @@
+{
+  "id": "H-A",
+  "n_trials": 22,
+  "criterio": {
+    "t_min": 2.0,
+    "dsr_min": 0.95,
+    "tramos_positivos": true,
+    "n_min": 100
+  },
+  "pasa": false,
+  "fallos": [
+    "t -1.7 < 2.0",
+    "DSR 0.001 < 0.95",
+    "tramo_antiguo -0.107 ≤ 0"
+  ],
+  "coste_medio_r": 0.061,
+  "media_bruta_r": 0.001,
+  "total": {
+    "n": 617,
+    "avg_r": -0.06,
+    "total_r": -36.96,
+    "win_rate": 45.4,
+    "t_stat": -1.7,
+    "ic95_media": [
+      -0.127,
+      0.012
+    ],
+    "sharpe_op": -0.069,
+    "dsr": 0.001,
+    "sharpe_azar_max": 0.078,
+    "n_trials": 22,
+    "drawdown_r": {
+      "real": 50.95,
+      "p50": 44.51,
+      "p95": 56.87
+    },
+    "tramo_antiguo": {
+      "n": 358,
+      "avg_r": -0.107
+    },
+    "tramo_reciente": {
+      "n": 259,
+      "avg_r": 0.006
+    },
+    "bloques": [
+      {
+        "n": 131,
+        "avg_r": -0.009
+      },
+      {
+        "n": 128,
+        "avg_r": -0.261
+      },
+      {
+        "n": 99,
+        "avg_r": -0.039
+      },
+      {
+        "n": 123,
+        "avg_r": -0.066
+      },
+      {
+        "n": 136,
+        "avg_r": 0.071
+      }
+    ]
+  },
+  "por_simbolo": {
+    "US100": {
+      "n": 617,
+      "avg_r": -0.06,
+      "total_r": -36.96,
+      "win_rate": 45.4,
+      "t_stat": -1.7,
+      "ic95_media": [
+        -0.127,
+        0.012
+      ],
+      "sharpe_op": -0.069,
+      "dsr": 0.001,
+      "sharpe_azar_max": 0.078,
+      "n_trials": 22,
+      "drawdown_r": {
+        "real": 50.95,
+        "p50": 44.51,
+        "p95": 56.87
+      },
+      "tramo_antiguo": {
+        "n": 358,
+        "avg_r": -0.107
+      },
+      "tramo_reciente": {
+        "n": 259,
+        "avg_r": 0.006
+      },
+      "bloques": [
+        {
+          "n": 131,
+          "avg_r": -0.009
+        },
+        {
+          "n": 128,
+          "avg_r": -0.261
+        },
+        {
+          "n": 99,
+          "avg_r": -0.039
+        },
+        {
+          "n": 123,
+          "avg_r": -0.066
+        },
+        {
+          "n": 136,
+          "avg_r": 0.071
+        }
+      ]
+    }
+  }
+}

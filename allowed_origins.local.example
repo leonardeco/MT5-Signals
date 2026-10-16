@@ -1,0 +1,3 @@
+# Copia este archivo a allowed_origins.local (no se sube a git) y reinicia el backend.
+# Una origen por línea, sin barra final. Ejemplo tras publicar el panel:
+# https://mt5-senales.vercel.app

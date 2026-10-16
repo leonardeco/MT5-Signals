@@ -1,0 +1,320 @@
+{
+  "id": "C-MOTOR-ACTUAL",
+  "n_trials": 20,
+  "criterio": {
+    "t_min": 2.0,
+    "dsr_min": 0.95,
+    "tramos_positivos": true,
+    "n_min": 100
+  },
+  "pasa": false,
+  "fallos": [
+    "t -0.72 < 2.0",
+    "DSR 0.005 < 0.95",
+    "tramo_reciente -0.111 ≤ 0"
+  ],
+  "coste_medio_r": 0.065,
+  "media_bruta_r": 0.025,
+  "total": {
+    "n": 441,
+    "avg_r": -0.04,
+    "total_r": -17.77,
+    "win_rate": 47.4,
+    "t_stat": -0.72,
+    "ic95_media": [
+      -0.147,
+      0.069
+    ],
+    "sharpe_op": -0.034,
+    "dsr": 0.005,
+    "sharpe_azar_max": 0.091,
+    "n_trials": 20,
+    "drawdown_r": {
+      "real": 40.35,
+      "p50": 34.39,
+      "p95": 48.57
+    },
+    "tramo_antiguo": {
+      "n": 226,
+      "avg_r": 0.027
+    },
+    "tramo_reciente": {
+      "n": 215,
+      "avg_r": -0.111
+    },
+    "bloques": [
+      {
+        "n": 45,
+        "avg_r": 0.056
+      },
+      {
+        "n": 98,
+        "avg_r": -0.044
+      },
+      {
+        "n": 83,
+        "avg_r": 0.094
+      },
+      {
+        "n": 108,
+        "avg_r": -0.056
+      },
+      {
+        "n": 107,
+        "avg_r": -0.166
+      }
+    ]
+  },
+  "por_simbolo": {
+    "EURUSD": {
+      "n": 100,
+      "avg_r": -0.095,
+      "total_r": -9.51,
+      "win_rate": 44.0,
+      "t_stat": -0.79,
+      "ic95_media": [
+        -0.32,
+        0.141
+      ],
+      "sharpe_op": -0.079,
+      "dsr": 0.004,
+      "sharpe_azar_max": 0.191,
+      "n_trials": 20,
+      "drawdown_r": {
+        "real": 13.29,
+        "p50": 16.86,
+        "p95": 23.69
+      },
+      "tramo_antiguo": {
+        "n": 63,
+        "avg_r": -0.089
+      },
+      "tramo_reciente": {
+        "n": 37,
+        "avg_r": -0.105
+      },
+      "bloques": [
+        {
+          "n": 20,
+          "avg_r": 0.13
+        },
+        {
+          "n": 16,
+          "avg_r": -0.617
+        },
+        {
+          "n": 27,
+          "avg_r": 0.061
+        },
+        {
+          "n": 16,
+          "avg_r": -0.225
+        },
+        {
+          "n": 21,
+          "avg_r": -0.014
+        }
+      ]
+    },
+    "GBPUSD": {
+      "n": 82,
+      "avg_r": -0.178,
+      "total_r": -14.61,
+      "win_rate": 45.1,
+      "t_stat": -1.5,
+      "ic95_media": [
+        -0.405,
+        0.055
+      ],
+      "sharpe_op": -0.165,
+      "dsr": 0.001,
+      "sharpe_azar_max": 0.211,
+      "n_trials": 20,
+      "drawdown_r": {
+        "real": 14.68,
+        "p50": 18.4,
+        "p95": 23.59
+      },
+      "tramo_antiguo": {
+        "n": 44,
+        "avg_r": -0.128
+      },
+      "tramo_reciente": {
+        "n": 38,
+        "avg_r": -0.236
+      },
+      "bloques": [
+        {
+          "n": 18,
+          "avg_r": -0.043
+        },
+        {
+          "n": 14,
+          "avg_r": -0.082
+        },
+        {
+          "n": 12,
+          "avg_r": -0.311
+        },
+        {
+          "n": 22,
+          "avg_r": -0.179
+        },
+        {
+          "n": 16,
+          "avg_r": -0.314
+        }
+      ]
+    },
+    "US100": {
+      "n": 86,
+      "avg_r": 0.015,
+      "total_r": 1.31,
+      "win_rate": 43.0,
+      "t_stat": 0.11,
+      "ic95_media": [
+        -0.246,
+        0.293
+      ],
+      "sharpe_op": 0.012,
+      "dsr": 0.036,
+      "sharpe_azar_max": 0.206,
+      "n_trials": 20,
+      "drawdown_r": {
+        "real": 7.8,
+        "p50": 11.38,
+        "p95": 17.54
+      },
+      "tramo_antiguo": {
+        "n": 40,
+        "avg_r": 0.134
+      },
+      "tramo_reciente": {
+        "n": 46,
+        "avg_r": -0.088
+      },
+      "bloques": [
+        {
+          "n": 19,
+          "avg_r": 0.216
+        },
+        {
+          "n": 8,
+          "avg_r": 0.252
+        },
+        {
+          "n": 13,
+          "avg_r": -0.057
+        },
+        {
+          "n": 26,
+          "avg_r": 0.049
+        },
+        {
+          "n": 20,
+          "avg_r": -0.267
+        }
+      ]
+    },
+    "USDJPY": {
+      "n": 80,
+      "avg_r": -0.108,
+      "total_r": -8.61,
+      "win_rate": 46.2,
+      "t_stat": -0.83,
+      "ic95_media": [
+        -0.354,
+        0.154
+      ],
+      "sharpe_op": -0.093,
+      "dsr": 0.004,
+      "sharpe_azar_max": 0.214,
+      "n_trials": 20,
+      "drawdown_r": {
+        "real": 12.56,
+        "p50": 14.76,
+        "p95": 20.61
+      },
+      "tramo_antiguo": {
+        "n": 48,
+        "avg_r": -0.217
+      },
+      "tramo_reciente": {
+        "n": 32,
+        "avg_r": 0.057
+      },
+      "bloques": [
+        {
+          "n": 15,
+          "avg_r": -0.702
+        },
+        {
+          "n": 18,
+          "avg_r": 0.106
+        },
+        {
+          "n": 15,
+          "avg_r": -0.121
+        },
+        {
+          "n": 14,
+          "avg_r": 0.114
+        },
+        {
+          "n": 18,
+          "avg_r": 0.013
+        }
+      ]
+    },
+    "XAUUSD": {
+      "n": 93,
+      "avg_r": 0.147,
+      "total_r": 13.64,
+      "win_rate": 58.1,
+      "t_stat": 1.28,
+      "ic95_media": [
+        -0.069,
+        0.38
+      ],
+      "sharpe_op": 0.132,
+      "dsr": 0.262,
+      "sharpe_azar_max": 0.198,
+      "n_trials": 20,
+      "drawdown_r": {
+        "real": 8.84,
+        "p50": 7.07,
+        "p95": 11.32
+      },
+      "tramo_antiguo": {
+        "n": 57,
+        "avg_r": 0.289
+      },
+      "tramo_reciente": {
+        "n": 36,
+        "avg_r": -0.079
+      },
+      "bloques": [
+        {
+          "n": 22,
+          "avg_r": 0.164
+        },
+        {
+          "n": 16,
+          "avg_r": 0.262
+        },
+        {
+          "n": 19,
+          "avg_r": 0.457
+        },
+        {
+          "n": 20,
+          "avg_r": -0.251
+        },
+        {
+          "n": 16,
+          "avg_r": 0.137
+        }
+      ]
+    }
+  }
+}

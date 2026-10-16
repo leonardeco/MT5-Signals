@@ -1,0 +1,53 @@
+{
+  "generado": "2026-10-15T08:10:40+00:00",
+  "congelado": "2026-10-15T08:10:38+00:00",
+  "reglas_modificadas": [],
+  "MOTOR": {
+    "n": 0,
+    "esperado_r": -0.04,
+    "por_simbolo": {},
+    "abiertas_sin_terminar": 0
+  },
+  "H-B": {
+    "n": 0,
+    "esperado_r": 0.067,
+    "por_simbolo": {}
+  },
+  "H-B_posiciones_en_sombra": {
+    "XAUUSD": {
+      "direccion": "BUY",
+      "desde": "2026-10-06",
+      "entrada": 4139.24,
+      "sesiones_restantes": 15,
+      "riesgo_px": 288.047515
+    },
+    "EURUSD": {
+      "direccion": "SELL",
+      "desde": "2026-09-30",
+      "entrada": 1.13418,
+      "sesiones_restantes": 11,
+      "riesgo_px": 0.014071
+    },
+    "GBPUSD": {
+      "direccion": "SELL",
+      "desde": "2026-10-01",
+      "entrada": 1.32642,
+      "sesiones_restantes": 12,
+      "riesgo_px": 0.0194
+    },
+    "US100": {
+      "direccion": "BUY",
+      "desde": "2026-09-23",
+      "entrada": 30714.0,
+      "sesiones_restantes": 6,
+      "riesgo_px": 1848.407489
+    },
+    "USDJPY": {
+      "direccion": "BUY",
+      "desde": "2026-09-30",
+      "entrada": 157.283,
+      "sesiones_restantes": 11,
+      "riesgo_px": 4.21346
+    }
+  }
+}

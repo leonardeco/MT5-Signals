@@ -1,0 +1,739 @@
+{
+  "nota": "Ver research/registry.py. Los V-* son los 20 intentos de INFORME_VARIANTES.md.",
+  "entradas": [
+    {
+      "id": "C-BASE-340d",
+      "tipo": "control",
+      "titulo": "Motor original (con gatillo BOS), 340 días",
+      "hipotesis": "Referencia de la búsqueda de variantes",
+      "criterio": {},
+      "registrada": "2026-10-15T01:00:00",
+      "estado": "no pasa",
+      "evaluada": "2026-10-15T01:00:00",
+      "resultado": null
+    },
+    {
+      "id": "V-S1",
+      "tipo": "hipotesis",
+      "titulo": "H1 sesión",
+      "hipotesis": "Variante S1 Londres+NY del plan de entrada (INFORME_VARIANTES.md)",
+      "criterio": {
+        "texto": "media R OOS mejor que la base en >= 3 de 5 pares, media OOS agregada >= +0.05R con n >= 30 e IS agregado > 0 (fijado antes, ver INFORME_VARIANTES.md)"
+      },
+      "registrada": "2026-10-15T00:00:00",
+      "estado": "no pasa",
+      "evaluada": "2026-10-15T01:00:00",
+      "resultado": {
+        "agregado": {
+          "is": {
+            "n": 137,
+            "avg_r": -0.003
+          },
+          "oos": {
+            "n": 87,
+            "avg_r": -0.049
+          }
+        },
+        "fuente": "research/variants_340d.json"
+      }
+    },
+    {
+      "id": "V-S2",
+      "tipo": "hipotesis",
+      "titulo": "H1 sesión",
+      "hipotesis": "Variante S2 sesión por instrumento del plan de entrada (INFORME_VARIANTES.md)",
+      "criterio": {
+        "texto": "media R OOS mejor que la base en >= 3 de 5 pares, media OOS agregada >= +0.05R con n >= 30 e IS agregado > 0 (fijado antes, ver INFORME_VARIANTES.md)"
+      },
+      "registrada": "2026-10-15T00:00:00",
+      "estado": "no pasa",
+      "evaluada": "2026-10-15T01:00:00",
+      "resultado": {
+        "agregado": {
+          "is": {
+            "n": 124,
+            "avg_r": -0.017
+          },
+          "oos": {
+            "n": 79,
+            "avg_r": -0.023
+          }
+        },
+        "fuente": "research/variants_340d.json"
+      }
+    },
+    {
+      "id": "V-B1",
+      "tipo": "hipotesis",
+      "titulo": "H2 sesgo",
+      "hipotesis": "Variante B1 sesgo H4 del plan de entrada (INFORME_VARIANTES.md)",
+      "criterio": {
+        "texto": "media R OOS mejor que la base en >= 3 de 5 pares, media OOS agregada >= +0.05R con n >= 30 e IS agregado > 0 (fijado antes, ver INFORME_VARIANTES.md)"
+      },
+      "registrada": "2026-10-15T00:00:00",
+      "estado": "no pasa",
+      "evaluada": "2026-10-15T01:00:00",
+      "resultado": {
+        "agregado": {
+          "is": {
+            "n": 301,
+            "avg_r": -0.057
+          },
+          "oos": {
+            "n": 185,
+            "avg_r": -0.031
+          }
+        },
+        "fuente": "research/variants_340d.json"
+      }
+    },
+    {
+      "id": "V-B2",
+      "tipo": "hipotesis",
+      "titulo": "H2 sesgo",
+      "hipotesis": "Variante B2 sesgo D1 del plan de entrada (INFORME_VARIANTES.md)",
+      "criterio": {
+        "texto": "media R OOS mejor que la base en >= 3 de 5 pares, media OOS agregada >= +0.05R con n >= 30 e IS agregado > 0 (fijado antes, ver INFORME_VARIANTES.md)"
+      },
+      "registrada": "2026-10-15T00:00:00",
+      "estado": "no pasa",
+      "evaluada": "2026-10-15T01:00:00",
+      "resultado": {
+        "agregado": {
+          "is": {
+            "n": 228,
+            "avg_r": -0.085
+          },
+          "oos": {
+            "n": 163,
+            "avg_r": -0.043
+          }
+        },
+        "fuente": "research/variants_340d.json"
+      }
+    },
+    {
+      "id": "V-B3",
+      "tipo": "hipotesis",
+      "titulo": "H2 sesgo",
+      "hipotesis": "Variante B3 sesgo H4+D1 del plan de entrada (INFORME_VARIANTES.md)",
+      "criterio": {
+        "texto": "media R OOS mejor que la base en >= 3 de 5 pares, media OOS agregada >= +0.05R con n >= 30 e IS agregado > 0 (fijado antes, ver INFORME_VARIANTES.md)"
+      },
+      "registrada": "2026-10-15T00:00:00",
+      "estado": "no pasa",
+      "evaluada": "2026-10-15T01:00:00",
+      "resultado": {
+        "agregado": {
+          "is": {
+            "n": 222,
+            "avg_r": -0.094
+          },
+          "oos": {
+            "n": 160,
+            "avg_r": -0.048
+          }
+        },
+        "fuente": "research/variants_340d.json"
+      }
+    },
+    {
+      "id": "V-R1",
+      "tipo": "hipotesis",
+      "titulo": "H3 régimen",
+      "hipotesis": "Variante R1 ADX M15>=25 del plan de entrada (INFORME_VARIANTES.md)",
+      "criterio": {
+        "texto": "media R OOS mejor que la base en >= 3 de 5 pares, media OOS agregada >= +0.05R con n >= 30 e IS agregado > 0 (fijado antes, ver INFORME_VARIANTES.md)"
+      },
+      "registrada": "2026-10-15T00:00:00",
+      "estado": "no pasa",
+      "evaluada": "2026-10-15T01:00:00",
+      "resultado": {
+        "agregado": {
+          "is": {
+            "n": 209,
+            "avg_r": -0.059
+          },
+          "oos": {
+            "n": 127,
+            "avg_r": -0.107
+          }
+        },
+        "fuente": "research/variants_340d.json"
+      }
+    },
+    {
+      "id": "V-R2",
+      "tipo": "hipotesis",
+      "titulo": "H3 régimen",
+      "hipotesis": "Variante R2 ADX H1>=25 del plan de entrada (INFORME_VARIANTES.md)",
+      "criterio": {
+        "texto": "media R OOS mejor que la base en >= 3 de 5 pares, media OOS agregada >= +0.05R con n >= 30 e IS agregado > 0 (fijado antes, ver INFORME_VARIANTES.md)"
+      },
+      "registrada": "2026-10-15T00:00:00",
+      "estado": "no pasa",
+      "evaluada": "2026-10-15T01:00:00",
+      "resultado": {
+        "agregado": {
+          "is": {
+            "n": 231,
+            "avg_r": -0.048
+          },
+          "oos": {
+            "n": 148,
+            "avg_r": -0.109
+          }
+        },
+        "fuente": "research/variants_340d.json"
+      }
+    },
+    {
+      "id": "V-R3",
+      "tipo": "hipotesis",
+      "titulo": "H3 régimen",
+      "hipotesis": "Variante R3 ATR pct>=50 del plan de entrada (INFORME_VARIANTES.md)",
+      "criterio": {
+        "texto": "media R OOS mejor que la base en >= 3 de 5 pares, media OOS agregada >= +0.05R con n >= 30 e IS agregado > 0 (fijado antes, ver INFORME_VARIANTES.md)"
+      },
+      "registrada": "2026-10-15T00:00:00",
+      "estado": "no pasa",
+      "evaluada": "2026-10-15T01:00:00",
+      "resultado": {
+        "agregado": {
+          "is": {
+            "n": 178,
+            "avg_r": 0.053
+          },
+          "oos": {
+            "n": 114,
+            "avg_r": -0.103
+          }
+        },
+        "fuente": "research/variants_340d.json"
+      }
+    },
+    {
+      "id": "V-R4",
+      "tipo": "hipotesis",
+      "titulo": "H3 régimen",
+      "hipotesis": "Variante R4 ATR pct 20-80 del plan de entrada (INFORME_VARIANTES.md)",
+      "criterio": {
+        "texto": "media R OOS mejor que la base en >= 3 de 5 pares, media OOS agregada >= +0.05R con n >= 30 e IS agregado > 0 (fijado antes, ver INFORME_VARIANTES.md)"
+      },
+      "registrada": "2026-10-15T00:00:00",
+      "estado": "no pasa",
+      "evaluada": "2026-10-15T01:00:00",
+      "resultado": {
+        "agregado": {
+          "is": {
+            "n": 195,
+            "avg_r": -0.033
+          },
+          "oos": {
+            "n": 110,
+            "avg_r": 0.001
+          }
+        },
+        "fuente": "research/variants_340d.json"
+      }
+    },
+    {
+      "id": "V-C1",
+      "tipo": "hipotesis",
+      "titulo": "H4 score",
+      "hipotesis": "Variante C1 score>=65 del plan de entrada (INFORME_VARIANTES.md)",
+      "criterio": {
+        "texto": "media R OOS mejor que la base en >= 3 de 5 pares, media OOS agregada >= +0.05R con n >= 30 e IS agregado > 0 (fijado antes, ver INFORME_VARIANTES.md)"
+      },
+      "registrada": "2026-10-15T00:00:00",
+      "estado": "no pasa",
+      "evaluada": "2026-10-15T01:00:00",
+      "resultado": {
+        "agregado": {
+          "is": {
+            "n": 270,
+            "avg_r": -0.125
+          },
+          "oos": {
+            "n": 167,
+            "avg_r": -0.064
+          }
+        },
+        "fuente": "research/variants_340d.json"
+      }
+    },
+    {
+      "id": "V-C2",
+      "tipo": "hipotesis",
+      "titulo": "H4 score",
+      "hipotesis": "Variante C2 score>=75 del plan de entrada (INFORME_VARIANTES.md)",
+      "criterio": {
+        "texto": "media R OOS mejor que la base en >= 3 de 5 pares, media OOS agregada >= +0.05R con n >= 30 e IS agregado > 0 (fijado antes, ver INFORME_VARIANTES.md)"
+      },
+      "registrada": "2026-10-15T00:00:00",
+      "estado": "no pasa",
+      "evaluada": "2026-10-15T01:00:00",
+      "resultado": {
+        "agregado": {
+          "is": {
+            "n": 89,
+            "avg_r": -0.093
+          },
+          "oos": {
+            "n": 68,
+            "avg_r": -0.036
+          }
+        },
+        "fuente": "research/variants_340d.json"
+      }
+    },
+    {
+      "id": "V-G1",
+      "tipo": "hipotesis",
+      "titulo": "H5 gatillo",
+      "hipotesis": "Variante G1 solo envolvente del plan de entrada (INFORME_VARIANTES.md)",
+      "criterio": {
+        "texto": "media R OOS mejor que la base en >= 3 de 5 pares, media OOS agregada >= +0.05R con n >= 30 e IS agregado > 0 (fijado antes, ver INFORME_VARIANTES.md)"
+      },
+      "registrada": "2026-10-15T00:00:00",
+      "estado": "no pasa",
+      "evaluada": "2026-10-15T01:00:00",
+      "resultado": {
+        "agregado": {
+          "is": {
+            "n": 155,
+            "avg_r": 0.014
+          },
+          "oos": {
+            "n": 99,
+            "avg_r": -0.092
+          }
+        },
+        "fuente": "research/variants_340d.json"
+      }
+    },
+    {
+      "id": "V-G2",
+      "tipo": "hipotesis",
+      "titulo": "H5 gatillo",
+      "hipotesis": "Variante G2 solo pin bar del plan de entrada (INFORME_VARIANTES.md)",
+      "criterio": {
+        "texto": "media R OOS mejor que la base en >= 3 de 5 pares, media OOS agregada >= +0.05R con n >= 30 e IS agregado > 0 (fijado antes, ver INFORME_VARIANTES.md)"
+      },
+      "registrada": "2026-10-15T00:00:00",
+      "estado": "pasa",
+      "evaluada": "2026-10-15T01:00:00",
+      "resultado": {
+        "agregado": {
+          "is": {
+            "n": 163,
+            "avg_r": 0.036
+          },
+          "oos": {
+            "n": 120,
+            "avg_r": 0.061
+          }
+        },
+        "fuente": "research/variants_340d.json"
+      }
+    },
+    {
+      "id": "V-G3",
+      "tipo": "hipotesis",
+      "titulo": "H5 gatillo",
+      "hipotesis": "Variante G3 solo ruptura del plan de entrada (INFORME_VARIANTES.md)",
+      "criterio": {
+        "texto": "media R OOS mejor que la base en >= 3 de 5 pares, media OOS agregada >= +0.05R con n >= 30 e IS agregado > 0 (fijado antes, ver INFORME_VARIANTES.md)"
+      },
+      "registrada": "2026-10-15T00:00:00",
+      "estado": "no pasa",
+      "evaluada": "2026-10-15T01:00:00",
+      "resultado": {
+        "agregado": {
+          "is": {
+            "n": 114,
+            "avg_r": -0.257
+          },
+          "oos": {
+            "n": 63,
+            "avg_r": -0.213
+          }
+        },
+        "fuente": "research/variants_340d.json"
+      }
+    },
+    {
+      "id": "V-G4",
+      "tipo": "hipotesis",
+      "titulo": "H5 gatillo",
+      "hipotesis": "Variante G4 sin ruptura del plan de entrada (INFORME_VARIANTES.md)",
+      "criterio": {
+        "texto": "media R OOS mejor que la base en >= 3 de 5 pares, media OOS agregada >= +0.05R con n >= 30 e IS agregado > 0 (fijado antes, ver INFORME_VARIANTES.md)"
+      },
+      "registrada": "2026-10-15T00:00:00",
+      "estado": "no pasa",
+      "evaluada": "2026-10-15T01:00:00",
+      "resultado": {
+        "agregado": {
+          "is": {
+            "n": 263,
+            "avg_r": 0.038
+          },
+          "oos": {
+            "n": 178,
+            "avg_r": 0.005
+          }
+        },
+        "fuente": "research/variants_340d.json"
+      }
+    },
+    {
+      "id": "V-X1",
+      "tipo": "hipotesis",
+      "titulo": "H6 salida",
+      "hipotesis": "Variante X1 todo en TP1 del plan de entrada (INFORME_VARIANTES.md)",
+      "criterio": {
+        "texto": "media R OOS mejor que la base en >= 3 de 5 pares, media OOS agregada >= +0.05R con n >= 30 e IS agregado > 0 (fijado antes, ver INFORME_VARIANTES.md)"
+      },
+      "registrada": "2026-10-15T00:00:00",
+      "estado": "no pasa",
+      "evaluada": "2026-10-15T01:00:00",
+      "resultado": {
+        "agregado": {
+          "is": {
+            "n": 320,
+            "avg_r": -0.046
+          },
+          "oos": {
+            "n": 204,
+            "avg_r": -0.037
+          }
+        },
+        "fuente": "research/variants_340d.json"
+      }
+    },
+    {
+      "id": "V-X2",
+      "tipo": "hipotesis",
+      "titulo": "H6 salida",
+      "hipotesis": "Variante X2 fijo 1.5R del plan de entrada (INFORME_VARIANTES.md)",
+      "criterio": {
+        "texto": "media R OOS mejor que la base en >= 3 de 5 pares, media OOS agregada >= +0.05R con n >= 30 e IS agregado > 0 (fijado antes, ver INFORME_VARIANTES.md)"
+      },
+      "registrada": "2026-10-15T00:00:00",
+      "estado": "no pasa",
+      "evaluada": "2026-10-15T01:00:00",
+      "resultado": {
+        "agregado": {
+          "is": {
+            "n": 312,
+            "avg_r": -0.031
+          },
+          "oos": {
+            "n": 199,
+            "avg_r": -0.022
+          }
+        },
+        "fuente": "research/variants_340d.json"
+      }
+    },
+    {
+      "id": "V-X3",
+      "tipo": "hipotesis",
+      "titulo": "H6 salida",
+      "hipotesis": "Variante X3 fijo 2R del plan de entrada (INFORME_VARIANTES.md)",
+      "criterio": {
+        "texto": "media R OOS mejor que la base en >= 3 de 5 pares, media OOS agregada >= +0.05R con n >= 30 e IS agregado > 0 (fijado antes, ver INFORME_VARIANTES.md)"
+      },
+      "registrada": "2026-10-15T00:00:00",
+      "estado": "no pasa",
+      "evaluada": "2026-10-15T01:00:00",
+      "resultado": {
+        "agregado": {
+          "is": {
+            "n": 308,
+            "avg_r": -0.022
+          },
+          "oos": {
+            "n": 195,
+            "avg_r": 0.033
+          }
+        },
+        "fuente": "research/variants_340d.json"
+      }
+    },
+    {
+      "id": "V-X4",
+      "tipo": "hipotesis",
+      "titulo": "H6 salida",
+      "hipotesis": "Variante X4 parcial sin BE del plan de entrada (INFORME_VARIANTES.md)",
+      "criterio": {
+        "texto": "media R OOS mejor que la base en >= 3 de 5 pares, media OOS agregada >= +0.05R con n >= 30 e IS agregado > 0 (fijado antes, ver INFORME_VARIANTES.md)"
+      },
+      "registrada": "2026-10-15T00:00:00",
+      "estado": "no pasa",
+      "evaluada": "2026-10-15T01:00:00",
+      "resultado": {
+        "agregado": {
+          "is": {
+            "n": 306,
+            "avg_r": -0.064
+          },
+          "oos": {
+            "n": 192,
+            "avg_r": -0.02
+          }
+        },
+        "fuente": "research/variants_340d.json"
+      }
+    },
+    {
+      "id": "V-X5",
+      "tipo": "hipotesis",
+      "titulo": "H6 salida",
+      "hipotesis": "Variante X5 sin niveles (1.5R/3R) del plan de entrada (INFORME_VARIANTES.md)",
+      "criterio": {
+        "texto": "media R OOS mejor que la base en >= 3 de 5 pares, media OOS agregada >= +0.05R con n >= 30 e IS agregado > 0 (fijado antes, ver INFORME_VARIANTES.md)"
+      },
+      "registrada": "2026-10-15T00:00:00",
+      "estado": "no pasa",
+      "evaluada": "2026-10-15T01:00:00",
+      "resultado": {
+        "agregado": {
+          "is": {
+            "n": 2744,
+            "avg_r": -0.05
+          },
+          "oos": {
+            "n": 1891,
+            "avg_r": -0.039
+          }
+        },
+        "fuente": "research/variants_340d.json"
+      }
+    },
+    {
+      "id": "C-MOTOR-ACTUAL",
+      "tipo": "control",
+      "titulo": "Motor actual (sin BOS) con costes, 340 días",
+      "hipotesis": "Control: medir el motor en vivo con costes reales y el criterio por defecto; no es una idea nueva",
+      "criterio": {
+        "t_min": 2.0,
+        "dsr_min": 0.95,
+        "tramos_positivos": true,
+        "n_min": 100
+      },
+      "registrada": "2026-10-15T02:56:14",
+      "estado": "no pasa",
+      "resultado": {
+        "pasa": false,
+        "fallos": [
+          "t -0.72 < 2.0",
+          "DSR 0.005 < 0.95",
+          "tramo_reciente -0.111 ≤ 0"
+        ],
+        "coste_medio_r": 0.065,
+        "media_bruta_r": 0.025,
+        "total": {
+          "n": 441,
+          "avg_r": -0.04,
+          "total_r": -17.77,
+          "win_rate": 47.4,
+          "t_stat": -0.72,
+          "ic95_media": [
+            -0.147,
+            0.069
+          ],
+          "sharpe_op": -0.034,
+          "dsr": 0.005,
+          "sharpe_azar_max": 0.091,
+          "n_trials": 20,
+          "drawdown_r": {
+            "real": 40.35,
+            "p50": 34.39,
+            "p95": 48.57
+          },
+          "tramo_antiguo": {
+            "n": 226,
+            "avg_r": 0.027
+          },
+          "tramo_reciente": {
+            "n": 215,
+            "avg_r": -0.111
+          },
+          "bloques": [
+            {
+              "n": 45,
+              "avg_r": 0.056
+            },
+            {
+              "n": 98,
+              "avg_r": -0.044
+            },
+            {
+              "n": 83,
+              "avg_r": 0.094
+            },
+            {
+              "n": 108,
+              "avg_r": -0.056
+            },
+            {
+              "n": 107,
+              "avg_r": -0.166
+            }
+          ]
+        }
+      },
+      "evaluada": "2026-10-15T02:56:21"
+    },
+    {
+      "id": "H-A",
+      "tipo": "hipotesis",
+      "titulo": "Momentum intradía US100 (1ª media hora → última media hora)",
+      "hipotesis": "Momentum intradía (Gao, Han, Li y Zhou 2018) en US100 (USTEC), velas M15 de MetaQuotes-Demo, todo el historial disponible. Hora del servidor: la vela que abre a las 16:30 es la apertura de contado y la que abre a las 22:45 termina con el cierre (23:00). Cada día con todas las velas necesarias: r1 = cierre de la vela 16:45 / cierre de la vela 22:45 del día hábil anterior − 1. Si r1 > 0 se compra y si r1 < 0 se vende a la apertura de la vela 22:30 (las compras pagan el spread de la vela). Salida al cierre de la vela 22:45. Stop protector a 2 × ATR(14) M15 calculado con la vela 22:15; si la vela 22:30 o 22:45 lo toca, se sale en el stop (si toca en la misma vela se asume el stop). R = resultado / (2 × ATR). Sin filtros ni parámetros optimizados; días incompletos se omiten. Costes de costs.py por operación.",
+      "criterio": {
+        "t_min": 2.0,
+        "dsr_min": 0.95,
+        "tramos_positivos": true,
+        "n_min": 100
+      },
+      "registrada": "2026-10-15T03:00:59",
+      "estado": "no pasa",
+      "resultado": {
+        "pasa": false,
+        "fallos": [
+          "t -1.7 < 2.0",
+          "DSR 0.001 < 0.95",
+          "tramo_antiguo -0.107 ≤ 0"
+        ],
+        "coste_medio_r": 0.061,
+        "media_bruta_r": 0.001,
+        "total": {
+          "n": 617,
+          "avg_r": -0.06,
+          "total_r": -36.96,
+          "win_rate": 45.4,
+          "t_stat": -1.7,
+          "ic95_media": [
+            -0.127,
+            0.012
+          ],
+          "sharpe_op": -0.069,
+          "dsr": 0.001,
+          "sharpe_azar_max": 0.078,
+          "n_trials": 22,
+          "drawdown_r": {
+            "real": 50.95,
+            "p50": 44.51,
+            "p95": 56.87
+          },
+          "tramo_antiguo": {
+            "n": 358,
+            "avg_r": -0.107
+          },
+          "tramo_reciente": {
+            "n": 259,
+            "avg_r": 0.006
+          },
+          "bloques": [
+            {
+              "n": 131,
+              "avg_r": -0.009
+            },
+            {
+              "n": 128,
+              "avg_r": -0.261
+            },
+            {
+              "n": 99,
+              "avg_r": -0.039
+            },
+            {
+              "n": 123,
+              "avg_r": -0.066
+            },
+            {
+              "n": 136,
+              "avg_r": 0.071
+            }
+          ]
+        }
+      },
+      "evaluada": "2026-10-15T03:02:55"
+    },
+    {
+      "id": "H-B",
+      "tipo": "hipotesis",
+      "titulo": "Momentum de series temporales D1 (12 meses, rebalanceo mensual)",
+      "hipotesis": "Momentum de series temporales (Moskowitz, Ooi y Pedersen 2012) en D1 de MetaQuotes-Demo, todo el historial disponible de XAUUSD, EURUSD, GBPUSD, USDJPY y US100. Cada 21 sesiones, empezando cuando hay 252 sesiones previas: señal = signo de (cierre de hoy / cierre de hace 252 sesiones − 1). Entrada a la apertura de la sesión siguiente (las compras pagan el spread de la vela) y salida a la apertura 21 sesiones después; cada periodo de 21 sesiones es una operación aunque la señal se repita. Sin stop. R = resultado / (precio de entrada × desviación de los retornos diarios de las 63 sesiones previas × raíz de 21), es decir, en unidades de la volatilidad esperada del mes. Costes: costs.py por operación + swap actual de MT5 por noche natural de la posición, solo cuando es negativo (los swaps positivos no se suman). Sin parámetros optimizados.",
+      "criterio": {
+        "t_min": 2.0,
+        "dsr_min": 0.95,
+        "tramos_positivos": true,
+        "n_min": 100
+      },
+      "registrada": "2026-10-15T03:00:59",
+      "estado": "no pasa",
+      "resultado": {
+        "pasa": false,
+        "fallos": [
+          "DSR 0.608 < 0.95"
+        ],
+        "coste_medio_r": 0.003,
+        "media_bruta_r": 0.07,
+        "total": {
+          "n": 1256,
+          "avg_r": 0.067,
+          "total_r": 83.54,
+          "win_rate": 49.9,
+          "t_stat": 2.22,
+          "ic95_media": [
+            0.008,
+            0.126
+          ],
+          "sharpe_op": 0.063,
+          "dsr": 0.608,
+          "sharpe_azar_max": 0.055,
+          "n_trials": 22,
+          "drawdown_r": {
+            "real": 21.02,
+            "p50": 22.53,
+            "p95": 35.89
+          },
+          "tramo_antiguo": {
+            "n": 708,
+            "avg_r": 0.087
+          },
+          "tramo_reciente": {
+            "n": 548,
+            "avg_r": 0.04
+          },
+          "bloques": [
+            {
+              "n": 200,
+              "avg_r": 0.125
+            },
+            {
+              "n": 255,
+              "avg_r": 0.07
+            },
+            {
+              "n": 253,
+              "avg_r": 0.075
+            },
+            {
+              "n": 254,
+              "avg_r": -0.027
+            },
+            {
+              "n": 294,
+              "avg_r": 0.098
+            }
+          ]
+        }
+      },
+      "evaluada": "2026-10-15T03:02:56"
+    }
+  ]
+}

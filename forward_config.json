@@ -1,0 +1,15 @@
+{
+  "congelado": "2026-10-15T08:10:38+00:00",
+  "freeze_ts": 1792051838.857865,
+  "huellas": {
+    "setups.py": "3ba58f096f7f5b775fbae25c7e70cc6220526efa88b5f14892a04eb89943aca3",
+    "signal_engine.py": "7d7f0e498cbffcaea9657c2be807c75ad6b4e6ae8064ec115864ca756bdbdbcb",
+    "backtest.py": "bcc5daf5dff24a0dd457a5c502e6643a2ee22d92467fba0fea1abba8d711e7e9",
+    "costs.py": "67619971a3f7a9a7cb1685ecc8891d163be6bfd08718eb73bcb99c0e67d73475",
+    "research/hipotesis/h_b.py": "3cc56a7ff669b1a8186af00da40d92a43c326f90e3f5f8f66e9ea973e607e645"
+  },
+  "esperado_r": {
+    "MOTOR": -0.04,
+    "H-B": 0.067
+  }
+}

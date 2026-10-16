@@ -1,0 +1,4 @@
+{
+  "nota": "Sobrescribe costs.DEFAULT_COSTS por símbolo (unidades de precio por operación completa). Si operas con otro broker, mide su spread (python -m research.data spreads 2) y pon aquí su comisión por lote.",
+  "simbolos": {}
+}
