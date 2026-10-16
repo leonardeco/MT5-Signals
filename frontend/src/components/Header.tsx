@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import type { AccountInfo, RiskStatus } from '../types';
-import { ShieldAlert, ShieldCheck, Zap, Activity, RefreshCw, Settings } from 'lucide-react';
+import { ShieldAlert, ShieldCheck, Activity, RefreshCw, Settings } from 'lucide-react';
 import { DEFAULT_API_BASE, getApiBase, setApiBase } from '../api';
+import { BrandMark } from './BrandMark';
 
 interface HeaderProps {
   account: AccountInfo | null;
@@ -38,16 +39,11 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Branding & Status */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
           <div style={{
-            width: '44px',
-            height: '44px',
-            borderRadius: '10px',
-            background: 'linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%)',
             display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: '0 4px 14px rgba(14, 165, 233, 0.4)'
+            borderRadius: '12px',
+            boxShadow: '0 6px 18px rgba(56, 189, 248, 0.18), 0 0 0 1px rgba(255, 255, 255, 0.03)'
           }}>
-            <Zap size={24} color="#ffffff" />
+            <BrandMark size={44} />
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
