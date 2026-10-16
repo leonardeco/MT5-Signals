@@ -83,6 +83,32 @@ def test_stale_calendar_blocks_after_max_age():
     assert not env["calendar_ok"] and env["news_blocked"] and "sin actualizar" in env["news_message"]
 
 
+def test_calendar_survives_a_restart_without_downloading_again(tmp_path):
+    cache, clock = str(tmp_path / "news.json"), Clock()
+    MarketEnvironmentFilter(fetch=lambda: [event_in(5)], clock=clock, cache_path=cache).evaluate_environment("EURUSD")
+
+    calls = []
+    clock.t += 3600
+    env = MarketEnvironmentFilter(fetch=failing_fetch(calls), clock=clock, cache_path=cache).evaluate_environment("EURUSD")
+    assert env["calendar_ok"] and env["news_blocked"] and "NFP" in env["news_message"]
+    assert calls == []
+
+
+def test_disk_cache_still_expires_after_max_age(tmp_path):
+    cache, clock = str(tmp_path / "news.json"), Clock()
+    MarketEnvironmentFilter(fetch=lambda: [], clock=clock, cache_path=cache).evaluate_environment("EURUSD")
+    clock.t += news_filter.CALENDAR_MAX_AGE_SECONDS + 60
+    env = MarketEnvironmentFilter(fetch=failing_fetch([]), clock=clock, cache_path=cache).evaluate_environment("EURUSD")
+    assert not env["calendar_ok"] and env["news_blocked"]
+
+
+def test_unreadable_disk_cache_is_ignored(tmp_path):
+    cache = tmp_path / "news.json"
+    cache.write_text("{roto", encoding="utf-8")
+    env = MarketEnvironmentFilter(fetch=failing_fetch([]), clock=Clock(), cache_path=str(cache)).evaluate_environment("EURUSD")
+    assert not env["calendar_ok"]
+
+
 # ---------- Exposición por divisa ----------
 
 from news_filter import exposure_check, exposure_legs  # noqa: E402

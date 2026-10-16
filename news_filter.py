@@ -1,4 +1,5 @@
 import json
+import os
 import time
 import urllib.request
 from datetime import datetime, timezone, timedelta
@@ -47,16 +48,44 @@ def exposure_check(symbol: str, open_symbols: list[str], max_per_leg: int) -> tu
 
 class MarketEnvironmentFilter:
     def __init__(self, session_start=2, session_end=15, news_window=15, max_usd_trades=2,
-                 fetch=download_calendar, clock=time.time):
+                 fetch=download_calendar, clock=time.time, cache_path: str | None = None):
         self.session_start_hour = session_start
         self.session_end_hour = session_end
         self.news_window_minutes = news_window
         self.max_usd_correlated_trades = max_usd_trades
         self._fetch = fetch
         self._clock = clock
+        self._cache_path = cache_path
         self._cached_events = []
         self._last_success_ts = 0.0
         self._last_attempt_ts = 0.0
+        self._load_disk_cache()
+
+    def _load_disk_cache(self):
+        """El feed responde 429 si se pide en cada arranque: la última descarga buena sobrevive a reinicios."""
+        if not self._cache_path or not os.path.isfile(self._cache_path):
+            return
+        try:
+            with open(self._cache_path, encoding="utf-8") as handle:
+                saved = json.load(handle)
+            fetched_at = float(saved["fetched_at"])
+            events = saved["events"]
+            if isinstance(events, list) and fetched_at <= self._clock():
+                self._cached_events = events
+                self._last_success_ts = fetched_at
+        except Exception as e:
+            print(f"[News] Caché del calendario ilegible, se ignora: {e}")
+
+    def _save_disk_cache(self):
+        if not self._cache_path:
+            return
+        tmp = f"{self._cache_path}.tmp"
+        try:
+            with open(tmp, "w", encoding="utf-8") as handle:
+                json.dump({"fetched_at": self._last_success_ts, "events": self._cached_events}, handle)
+            os.replace(tmp, self._cache_path)
+        except OSError as e:
+            print(f"[News] No se pudo guardar la caché del calendario: {e}")
 
     def _refresh_calendar(self):
         now = self._clock()
@@ -68,6 +97,7 @@ class MarketEnvironmentFilter:
         try:
             self._cached_events = self._fetch()
             self._last_success_ts = now
+            self._save_disk_cache()
         except Exception as e:
             print(f"[News] No se pudo actualizar el calendario: {e}")
 

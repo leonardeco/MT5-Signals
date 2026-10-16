@@ -1,0 +1,6 @@
+# forward.py congela las reglas con el SHA-256 de cada archivo: un cambio de fin de línea las "modifica"
+* text=auto eol=lf
+*.bat text eol=crlf
+*.png binary
+*.pkl binary
+*.db binary

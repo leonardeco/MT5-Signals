@@ -133,7 +133,77 @@ button:active {
   align-items: start;
 }
 
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 18px;
+  margin-bottom: 18px;
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.notice strong {
+  display: inline-block;
+  margin-bottom: 2px;
+}
+
+.notice ol {
+  margin: 4px 0 0 18px;
+}
+
+.notice-warn {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.45);
+}
+
+.notice-warn strong {
+  color: #fcd34d;
+}
+
+.notice-info {
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  align-items: center;
+}
+
+.notice-info strong {
+  color: #7dd3fc;
+}
+
+.notice-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+  color: #e2e8f0;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
 @media (max-width: 1100px) {
+  .notice {
+    flex-wrap: wrap;
+  }
+
   .terminal-shell {
     padding: 12px;
   }

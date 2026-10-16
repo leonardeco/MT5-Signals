@@ -8,36 +8,43 @@ import { PositionsPanel } from './components/PositionsPanel';
 import { JournalPanel } from './components/JournalPanel';
 import { BacktestPanel } from './components/BacktestPanel';
 import { ForwardPanel } from './components/ForwardPanel';
-import { AlertTriangle, Info } from 'lucide-react';
-import { apiFetch, getApiBase, wsUrl } from './api';
+import { AlertTriangle, Info, RefreshCw, Eye } from 'lucide-react';
+import { apiFetch, checkEngine, getApiBase, LOCAL_PANEL_URL, wsUrl } from './api';
+import type { EngineStatus } from './api';
 
 const WATCHLIST = ['XAUUSD', 'EURUSD', 'GBPUSD', 'US100', 'USDJPY'];
 
+const EMPTY_MARKET: MarketUpdate = {
+  type: 'MARKET_UPDATE',
+  account: { balance: 0, equity: 0, profit: 0 },
+  risk: {
+    locked: false,
+    starting_balance: 0,
+    current_equity: 0,
+    current_balance: 0,
+    daily_pnl: 0,
+    daily_pnl_pct: 0,
+    lock_reason: '',
+    max_daily_loss_pct: 3.0,
+  },
+  autotrading: false,
+  bot_logs: [],
+  bot_mode: 'INSTITUTIONAL',
+  signals: [],
+  positions: [],
+};
+
 export const App: React.FC = () => {
-  const [marketData, setMarketData] = useState<MarketUpdate>({
-    type: 'MARKET_UPDATE',
-    account: { balance: 0, equity: 0, profit: 0 },
-    risk: {
-      locked: false,
-      starting_balance: 0,
-      current_equity: 0,
-      current_balance: 0,
-      daily_pnl: 0,
-      daily_pnl_pct: 0,
-      lock_reason: '',
-      max_daily_loss_pct: 3.0,
-    },
-    autotrading: false,
-    bot_logs: [],
-    bot_mode: 'INSTITUTIONAL',
-    signals: [],
-    positions: [],
-  });
+  const [marketData, setMarketData] = useState<MarketUpdate>(EMPTY_MARKET);
 
   const [selectedSymbol, setSelectedSymbol] = useState<string>('XAUUSD');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const [wsConnected, setWsConnected] = useState<boolean>(false);
+  const [engine, setEngine] = useState<EngineStatus>({ state: 'checking', canTrade: false, localPanel: LOCAL_PANEL_URL });
+  const [retryKey, setRetryKey] = useState(0);
   const toastTimeoutRef = useRef<any>(null);
+  const engineOk = engine.state === 'ok';
+  const readOnly = engineOk && !engine.canTrade;
+  const isLocalPanel = ['localhost', '127.0.0.1'].includes(window.location.hostname);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -49,7 +56,6 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     let ws: WebSocket | null = null;
-    let reconnectTimer: number | undefined;
     let closed = false;
     let wsAlive = false;
 
@@ -57,61 +63,69 @@ export const App: React.FC = () => {
       if (payload.type === 'MARKET_UPDATE') setMarketData(payload as MarketUpdate);
     };
 
-    const poll = async () => {
-      if (wsAlive) return;
-      try {
-        const res = await apiFetch('/market');
-        if (!res.ok) throw new Error('sin respuesta');
-        apply(await res.json());
-        setWsConnected(true);
-      } catch {
-        setWsConnected(false);
-      }
-    };
-
-    const connect = () => {
-      ws = new WebSocket(wsUrl('/ws/signals'));
-      ws.onopen = () => {
-        wsAlive = true;
-        setWsConnected(true);
-      };
-      ws.onmessage = (event) => {
+    const openSocket = () => {
+      if (closed || ws) return;
+      const sock = new WebSocket(wsUrl('/ws/signals'));
+      ws = sock;
+      sock.onopen = () => { wsAlive = true; };
+      sock.onmessage = (event) => {
         try {
           apply(JSON.parse(event.data));
         } catch (e) {
           console.error('Error parsing market update:', e);
         }
       };
-      ws.onclose = () => {
+      sock.onclose = () => {
         wsAlive = false;
-        if (closed) return;
-        setWsConnected(false);
-        reconnectTimer = window.setTimeout(connect, 2000);
+        if (ws === sock) ws = null;
       };
-      ws.onerror = () => {
-        wsAlive = false;
-        ws?.close();
-      };
+      sock.onerror = () => sock.close();
     };
 
-    connect();
-    const pollTimer = window.setInterval(poll, 2000);
+    // Sin WebSocket vivo: confirmar que en esa dirección responde este motor y no otra API, y leer por HTTP
+    const tick = async () => {
+      if (wsAlive) return;
+      const status = await checkEngine();
+      if (closed) return;
+      setEngine(status);
+      if (status.state !== 'ok') {
+        setMarketData(EMPTY_MARKET);
+        return;
+      }
+      openSocket();
+      try {
+        const res = await apiFetch('/market', { cache: 'no-store' });
+        if (res.ok && !closed) apply(await res.json());
+      } catch {
+        /* el siguiente ciclo lo vuelve a intentar */
+      }
+    };
+
+    tick();
+    const timer = window.setInterval(tick, 3000);
 
     return () => {
       closed = true;
-      if (reconnectTimer) window.clearTimeout(reconnectTimer);
-      window.clearInterval(pollTimer);
+      window.clearInterval(timer);
       ws?.close();
     };
-  }, []);
+  }, [retryKey]);
+
+  const postAction = async (path: string, body?: unknown) => {
+    const res = await apiFetch(path, {
+      method: 'POST',
+      ...(body === undefined ? {} : { headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.detail || `Error ${res.status}`);
+    return data;
+  };
 
   const handleResetRisk = async () => {
     if (!window.confirm('El bloqueo corta el día a propósito. ¿Desbloquear el kill switch y volver a permitir órdenes?')) return;
     try {
-      const res = await apiFetch('/risk/reset', { method: 'POST' });
-      if (res.ok) {
-        showToast('🛡️ Kill Switch reiniciado con éxito');
-      }
+      await postAction('/risk/reset');
+      showToast('🛡️ Kill Switch reiniciado con éxito');
     } catch (err: any) {
       showToast(`Error al reiniciar: ${err.message}`);
     }
@@ -119,13 +133,7 @@ export const App: React.FC = () => {
 
   const handleToggleAutoTrading = async (enabled: boolean) => {
     try {
-      const res = await apiFetch('/bot/autotrading', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ enabled }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.detail || 'Fallo');
+      await postAction('/bot/autotrading', { enabled });
       showToast(enabled ? '🤖 Auto-Trading Activado' : '⏸️ Auto-Trading Pausado');
     } catch (err: any) {
       showToast(`Aviso: ${err.message}`);
@@ -134,14 +142,8 @@ export const App: React.FC = () => {
 
   const handleChangeBotMode = async (mode: 'SNIPER' | 'INSTITUTIONAL' | 'DYNAMIC') => {
     try {
-      const res = await apiFetch('/bot/mode', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mode }),
-      });
-      if (res.ok) {
-        showToast(`⚙️ Modo del Copilot cambiado a ${mode}`);
-      }
+      await postAction('/bot/mode', { mode });
+      showToast(`⚙️ Modo del Copilot cambiado a ${mode}`);
     } catch (err: any) {
       showToast(`Error: ${err.message}`);
     }
@@ -159,31 +161,67 @@ export const App: React.FC = () => {
         account={marketData.account}
         risk={marketData.risk}
         autotrading={marketData.autotrading}
-        wsConnected={wsConnected}
+        wsConnected={engineOk}
         mt5Connected={marketData.mt5_connected}
+        canTrade={!readOnly}
         onResetRisk={handleResetRisk}
         onToggleAutoTrading={handleToggleAutoTrading}
       />
 
-      {!wsConnected && (
-        <div style={{
-          background: 'rgba(245, 158, 11, 0.12)',
-          border: '1px solid rgba(245, 158, 11, 0.45)',
-          borderRadius: '10px',
-          padding: '12px 18px',
-          marginBottom: '18px',
-          color: '#ffffff',
-          fontSize: '0.85rem',
-          lineHeight: 1.45,
-        }}>
-          <strong style={{ color: '#fcd34d' }}>Motor sin respuesta en {getApiBase()}.</strong>{' '}
-          MetaTrader 5 y el backend viven en este PC: ejecuta <span className="num-mono">start_terminal.bat</span> y opera en{' '}
-          <span className="num-mono">http://localhost:5173</span>. Esta página publicada solo alcanza el motor si el navegador está en el mismo equipo.
+      {(engine.state === 'offline' || engine.state === 'foreign') && (
+        <div className="notice notice-warn">
+          <AlertTriangle size={20} color="#f59e0b" style={{ flexShrink: 0 }} />
+          <div style={{ flex: 1 }}>
+            {engine.state === 'foreign' ? (
+              <>
+                <strong>En {getApiBase()} responde otra aplicación, no el motor de MT5 Señales.</strong>
+                <div>
+                  Otro proyecto está usando ese puerto. Arranca el motor con <span className="num-mono">start_terminal.bat</span>{' '}
+                  (usa el puerto 8765) o cambia la dirección con el engranaje.
+                </div>
+              </>
+            ) : (
+              <>
+                <strong>No encuentro el motor en {getApiBase()}.</strong>
+                <ol>
+                  <li>Abre MetaTrader 5 e inicia sesión en tu cuenta.</li>
+                  <li>Ejecuta <span className="num-mono">start_terminal.bat</span> en el PC donde está MetaTrader.</li>
+                  {!isLocalPanel && (
+                    <li>
+                      Si el navegador pregunta si esta página puede acceder a dispositivos de tu red local, pulsa «Permitir».
+                      Solo funciona en el mismo PC del motor.
+                    </li>
+                  )}
+                </ol>
+              </>
+            )}
+          </div>
+          <div className="notice-actions">
+            <button className="btn-ghost" onClick={() => setRetryKey((k) => k + 1)}>
+              <RefreshCw size={13} /> Reintentar
+            </button>
+            {!isLocalPanel && (
+              <a className="btn-ghost" href={engine.localPanel}>Abrir panel local</a>
+            )}
+          </div>
+        </div>
+      )}
+
+      {readOnly && (
+        <div className="notice notice-info">
+          <Eye size={18} color="#38bdf8" style={{ flexShrink: 0 }} />
+          <div style={{ flex: 1 }}>
+            <strong>Panel de solo lectura.</strong> Ves precios, señales y posiciones; las órdenes, cierres y el kill switch
+            se manejan desde el panel local.
+          </div>
+          <div className="notice-actions">
+            <a className="btn-ghost" href={engine.localPanel}>Abrir panel local</a>
+          </div>
         </div>
       )}
 
       {/* Sin MT5 no hay precios reales: avisar antes que cualquier señal */}
-      {wsConnected && marketData.mt5_connected === false && (
+      {engineOk && marketData.mt5_connected === false && (
         <div style={{
           background: 'rgba(239, 68, 68, 0.18)',
           border: '1px solid #ef4444',
@@ -228,7 +266,7 @@ export const App: React.FC = () => {
               <span style={{ fontSize: '0.85rem' }}>{marketData.risk.lock_reason}</span>
             </div>
           </div>
-          <button
+          {!readOnly && <button
             onClick={handleResetRisk}
             style={{
               padding: '6px 14px',
@@ -241,7 +279,7 @@ export const App: React.FC = () => {
             }}
           >
             Desbloquear Terminal
-          </button>
+          </button>}
         </div>
       )}
 
@@ -285,13 +323,15 @@ export const App: React.FC = () => {
           <PositionsPanel
             positions={marketData.positions}
             onPositionClosed={(msg) => showToast(msg)}
+            readOnly={readOnly}
           />
 
-          <BacktestPanel onMessage={(msg) => showToast(msg)} />
+          {/* key: vuelven a cargar sus datos cuando el motor aparece */}
+          <BacktestPanel key={`bt-${engineOk}`} onMessage={(msg) => showToast(msg)} />
 
-          <ForwardPanel onMessage={(msg) => showToast(msg)} />
+          <ForwardPanel key={`fw-${engineOk}`} onMessage={(msg) => showToast(msg)} />
 
-          <JournalPanel />
+          <JournalPanel key={`jr-${engineOk}`} />
 
         </div>
 
@@ -310,6 +350,7 @@ export const App: React.FC = () => {
             selectedSymbol={selectedSymbol}
             onSelectSymbol={setSelectedSymbol}
             onOrderExecuted={(msg) => showToast(msg)}
+            readOnly={readOnly}
           />
 
         </div>

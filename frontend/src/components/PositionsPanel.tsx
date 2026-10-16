@@ -6,11 +6,13 @@ import { ShieldCheck, XCircle, AlertOctagon, TrendingUp, TrendingDown } from 'lu
 interface PositionsPanelProps {
   positions: Position[];
   onPositionClosed: (msg: string) => void;
+  readOnly?: boolean;
 }
 
 export const PositionsPanel: React.FC<PositionsPanelProps> = ({
   positions,
-  onPositionClosed
+  onPositionClosed,
+  readOnly = false
 }) => {
   const [closingTicket, setClosingTicket] = useState<number | null>(null);
   const [closingAll, setClosingAll] = useState<boolean>(false);
@@ -66,7 +68,7 @@ export const PositionsPanel: React.FC<PositionsPanelProps> = ({
           )}
         </div>
 
-        {positions.length > 0 && (
+        {positions.length > 0 && !readOnly && (
           <button
             onClick={handleCloseAll}
             disabled={closingAll}
@@ -193,6 +195,9 @@ export const PositionsPanel: React.FC<PositionsPanelProps> = ({
                     </td>
 
                     <td style={{ padding: '10px', textAlign: 'right' }}>
+                      {readOnly ? (
+                        <span style={{ fontSize: '0.68rem', color: 'var(--text-muted)' }}>Solo lectura</span>
+                      ) : (
                       <button
                         onClick={() => handleClose(p.ticket)}
                         disabled={closingTicket === p.ticket}
@@ -213,6 +218,7 @@ export const PositionsPanel: React.FC<PositionsPanelProps> = ({
                         <XCircle size={12} />
                         {closingTicket === p.ticket ? '...' : 'Cerrar'}
                       </button>
+                      )}
                     </td>
 
                   </tr>

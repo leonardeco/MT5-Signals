@@ -30,13 +30,15 @@ interface SignalsPanelProps {
   selectedSymbol: string;
   onSelectSymbol: (symbol: string) => void;
   onOrderExecuted: (msg: string) => void;
+  readOnly?: boolean;
 }
 
 export const SignalsPanel: React.FC<SignalsPanelProps> = ({
   signals,
   selectedSymbol,
   onSelectSymbol,
-  onOrderExecuted
+  onOrderExecuted,
+  readOnly = false
 }) => {
   const [executing, setExecuting] = useState<string | null>(null);
   const liveSignals = signals.some((s) => s.data_source === 'MT5');
@@ -333,7 +335,13 @@ export const SignalsPanel: React.FC<SignalsPanelProps> = ({
                     </span>
                   )}
 
-                  {!isNeutral && sig.executable && (
+                  {!isNeutral && sig.executable && readOnly && (
+                    <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
+                      Solo lectura: opera desde el panel local
+                    </span>
+                  )}
+
+                  {!isNeutral && sig.executable && !readOnly && (
                     <button
                       onClick={(e) => handleExecute(sig, e)}
                       disabled={executing === sig.symbol}

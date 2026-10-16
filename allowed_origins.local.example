@@ -1,3 +1,8 @@
-# Copia este archivo a allowed_origins.local (no se sube a git) y reinicia el backend.
-# Una origen por línea, sin barra final. Ejemplo tras publicar el panel:
-# https://mt5-senales.vercel.app
+# Copia este archivo a allowed_origins.local (no se sube a git) y reinicia el motor.
+# Un origen por línea, sin barra final.
+#
+#   <origen>            solo lectura: ve precios, señales y posiciones
+#   <origen> operar     además envía órdenes, cierra posiciones y toca el kill switch
+#
+# El panel local (http://localhost:5180) siempre puede operar.
+https://mt5-signals.vercel.app

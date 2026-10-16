@@ -5,7 +5,7 @@ import math
 import os
 import time
 from typing import Optional
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Query
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
@@ -37,7 +37,9 @@ latest_market: dict = {}
 
 engine = QuantSignalEngine(risk_percent=1.0)
 kill_switch = DailyKillSwitch(max_daily_loss_pct=3.0, magic=MAGIC_NUMBER)
-env_filter = MarketEnvironmentFilter()
+env_filter = MarketEnvironmentFilter(
+    cache_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), "news_cache.json")
+)
 bot_copilot = QuantBotCopilot()
 
 # In-memory Demo/Simulation state for when MT5 is offline
@@ -526,57 +528,76 @@ async def lifespan(app: FastAPI):
     except Exception:
         pass
 
-app = FastAPI(title="MT5 Quant Pro API", lifespan=lifespan)
+SERVICE_ID = "mt5-senales"
+SERVICE_VERSION = "1.1.0"
+LOCAL_PANEL_URL = "http://localhost:5180"
 
-# Solo el frontend local puede hablar con la API. Con "*" cualquier web abierta en el navegador podía
-# leer la cuenta por WebSocket o lanzar POST /execute, /close-all... contra 127.0.0.1:8000.
-def _origins_from_file() -> set[str]:
-    """Orígenes extra (por ejemplo la URL de Vercel) sin meterlos en el código."""
-    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "allowed_origins.local")
-    found: set[str] = set()
-    if not os.path.isfile(path):
-        return found
-    with open(path, encoding="utf-8") as handle:
-        for line in handle:
-            line = line.split("#", 1)[0].strip()
-            if line:
-                found.add(line)
-    return found
+app = FastAPI(title="MT5 Señales API", version=SERVICE_VERSION, lifespan=lifespan)
+
+# Solo el frontend local puede operar. Con "*" cualquier web abierta en el navegador podía
+# leer la cuenta por WebSocket o lanzar POST /execute, /close-all... contra el motor local.
+ORIGINS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "allowed_origins.local")
 
 
-ALLOWED_ORIGINS = {
-    o.strip() for o in os.environ.get(
+def parse_origins_file(text: str) -> tuple[set[str], set[str]]:
+    """Una origen por línea. Por defecto solo lectura; con la palabra «operar» al final también envía órdenes."""
+    trade: set[str] = set()
+    read: set[str] = set()
+    for raw in text.splitlines():
+        parts = raw.split("#", 1)[0].split()
+        if not parts:
+            continue
+        origin = parts[0].rstrip("/")
+        level = parts[1].lower() if len(parts) > 1 else "lectura"
+        (trade if level == "operar" else read).add(origin)
+    return trade, read - trade
+
+
+def _origins_from_file() -> tuple[set[str], set[str]]:
+    if not os.path.isfile(ORIGINS_FILE):
+        return set(), set()
+    with open(ORIGINS_FILE, encoding="utf-8") as handle:
+        return parse_origins_file(handle.read())
+
+
+_file_trade, _file_read = _origins_from_file()
+TRADE_ORIGINS = {
+    o.strip().rstrip("/") for o in os.environ.get(
         "QUANT_ALLOWED_ORIGINS",
-        "http://localhost:5173,http://127.0.0.1:5173,http://localhost:4173,http://127.0.0.1:4173",
+        "http://localhost:5180,http://127.0.0.1:5180,http://localhost:4180,http://127.0.0.1:4180",
     ).split(",") if o.strip()
-} | _origins_from_file()
+} | _file_trade
+READ_ORIGINS = _file_read - TRADE_ORIGINS
+ALLOWED_ORIGINS = TRADE_ORIGINS | READ_ORIGINS
 
 def origin_allowed(origin: Optional[str]) -> bool:
-    """Sin cabecera Origin (curl, scripts locales) se permite; un navegador siempre la envía en peticiones cruzadas."""
+    """Lectura (GET y WebSockets). Sin cabecera Origin (curl, scripts locales) se permite."""
     return origin is None or origin in ALLOWED_ORIGINS
+
+def origin_can_trade(origin: Optional[str]) -> bool:
+    """Órdenes, cierres, kill switch y cálculos: solo el panel local o un origen marcado «operar»."""
+    return origin is None or origin in TRADE_ORIGINS
 
 @app.middleware("http")
 async def reject_foreign_origins(request, call_next):
     # CORS no frena los POST "simples" (sin cuerpo JSON): el navegador los envía igual y solo oculta la respuesta
-    if request.method not in ("GET", "HEAD", "OPTIONS") and not origin_allowed(request.headers.get("origin")):
-        return JSONResponse(status_code=403, content={"detail": "Origen no permitido"})
+    origin = request.headers.get("origin")
+    if request.method not in ("GET", "HEAD", "OPTIONS") and not origin_can_trade(origin):
+        detail = (
+            f"Este panel es de solo lectura. Opera desde {LOCAL_PANEL_URL}"
+            if origin in READ_ORIGINS else "Origen no permitido"
+        )
+        return JSONResponse(status_code=403, content={"detail": detail})
     return await call_next(request)
 
+# allow_private_network: Chrome lo pide en el preflight cuando una página https (Vercel) llama a 127.0.0.1
 app.add_middleware(
     CORSMiddleware,
     allow_origins=sorted(ALLOWED_ORIGINS),
     allow_methods=["*"],
-    allow_headers=["*"]
+    allow_headers=["*"],
+    allow_private_network=True,
 )
-
-@app.middleware("http")
-async def allow_private_network(request, call_next):
-    """Chrome pide este encabezado cuando un panel https (Vercel) llama a 127.0.0.1."""
-    response = await call_next(request)
-    asks = request.headers.get("access-control-request-private-network") == "true"
-    if asks and origin_allowed(request.headers.get("origin")):
-        response.headers["Access-Control-Allow-Private-Network"] = "true"
-    return response
 
 class ExecuteSignalRequest(BaseModel):
     symbol: str
@@ -1013,9 +1034,14 @@ def get_market():
 
 
 @app.get("/status")
-def get_status():
+def get_status(request: Request):
     live = is_mt5_live()
     return {
+        "service": SERVICE_ID,
+        "version": SERVICE_VERSION,
+        "can_trade": origin_can_trade(request.headers.get("origin")),
+        "local_panel": LOCAL_PANEL_URL,
+        "mt5_status": "" if live else (mt5_status_message or "Esperando a MetaTrader 5..."),
         "status": "online",
         "mt5_connected": live,
         "mode": "LIVE" if live else "DEMO",

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { AccountInfo, RiskStatus } from '../types';
 import { ShieldAlert, ShieldCheck, Zap, Activity, RefreshCw, Settings } from 'lucide-react';
-import { getApiBase, setApiBase } from '../api';
+import { DEFAULT_API_BASE, getApiBase, setApiBase } from '../api';
 
 interface HeaderProps {
   account: AccountInfo | null;
@@ -9,6 +9,7 @@ interface HeaderProps {
   autotrading: boolean;
   wsConnected: boolean;
   mt5Connected?: boolean;
+  canTrade?: boolean;
   onResetRisk: () => void;
   onToggleAutoTrading: (enabled: boolean) => void;
 }
@@ -19,11 +20,13 @@ export const Header: React.FC<HeaderProps> = ({
   autotrading,
   wsConnected,
   mt5Connected = false,
+  canTrade = true,
   onResetRisk,
   onToggleAutoTrading
 }) => {
   const isProfitPos = (account?.profit ?? 0) >= 0;
   const isRiskLocked = risk?.locked ?? false;
+  const switchDisabled = isRiskLocked || !canTrade || !wsConnected;
   const [apiOpen, setApiOpen] = useState(false);
   const [apiDraft, setApiDraft] = useState(getApiBase);
   const money = (n?: number) => (n ?? 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -49,7 +52,7 @@ export const Header: React.FC<HeaderProps> = ({
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <h1 style={{ fontSize: '1.25rem', fontWeight: 800, letterSpacing: '-0.02em', margin: 0, color: '#ffffff' }}>
-                MT5 QUANT PRO
+                MT5 SEÑALES
               </h1>
               <span style={{
                 fontSize: '0.7rem',
@@ -61,7 +64,7 @@ export const Header: React.FC<HeaderProps> = ({
                 color: mt5Connected ? '#10b981' : '#f59e0b',
                 border: `1px solid ${mt5Connected ? 'rgba(16, 185, 129, 0.3)' : 'rgba(245, 158, 11, 0.3)'}`
               }}>
-                {mt5Connected ? 'MT5 CONECTADO' : 'SIN TERMINAL'}
+                {!wsConnected ? 'SIN MOTOR' : mt5Connected ? 'MT5 CONECTADO' : 'SIN TERMINAL'}
               </span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '4px', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
@@ -75,6 +78,12 @@ export const Header: React.FC<HeaderProps> = ({
               <span style={{ color: autotrading ? '#10b981' : 'var(--text-secondary)', fontWeight: 600 }}>
                 {autotrading ? '🤖 Auto-Trading ACTIVO' : '⏸️ Modo Asistido (Manual)'}
               </span>
+              {wsConnected && !canTrade && (
+                <>
+                  <span style={{ color: 'var(--text-muted)' }}>•</span>
+                  <span style={{ color: '#7dd3fc', fontWeight: 600 }}>Solo lectura</span>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -155,7 +164,7 @@ export const Header: React.FC<HeaderProps> = ({
               </div>
             </div>
 
-            {isRiskLocked && (
+            {isRiskLocked && canTrade && (
               <button
                 onClick={onResetRisk}
                 title="Restablecer Kill Switch"
@@ -181,12 +190,13 @@ export const Header: React.FC<HeaderProps> = ({
           {/* Auto-Trading Master Switch */}
           <button
             onClick={() => onToggleAutoTrading(!autotrading)}
-            disabled={isRiskLocked}
+            disabled={switchDisabled}
+            title={!canTrade ? 'Solo lectura: el auto-trading se maneja desde el panel local' : undefined}
             style={{
               padding: '10px 18px',
               borderRadius: '10px',
               border: 'none',
-              background: isRiskLocked
+              background: switchDisabled
                 ? '#334155'
                 : autotrading
                 ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
@@ -198,7 +208,7 @@ export const Header: React.FC<HeaderProps> = ({
               alignItems: 'center',
               gap: '8px',
               boxShadow: autotrading ? '0 4px 14px rgba(16, 185, 129, 0.4)' : '0 4px 14px rgba(59, 130, 246, 0.3)',
-              cursor: isRiskLocked ? 'not-allowed' : 'pointer'
+              cursor: switchDisabled ? 'not-allowed' : 'pointer'
             }}
           >
             <Activity size={16} />
@@ -241,7 +251,7 @@ export const Header: React.FC<HeaderProps> = ({
                 }}
               >
                 <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '8px' }}>
-                  Motor (en este PC es http://127.0.0.1:8000). Cámbialo solo si el backend tiene otra dirección https.
+                  Dirección del motor. En este PC es {DEFAULT_API_BASE}; deja el campo vacío para volver a ella.
                 </div>
                 <input
                   value={apiDraft}
