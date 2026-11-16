@@ -13,7 +13,17 @@ import pandas as pd
 import numpy as np
 import MetaTrader5 as mt5
 
+from engine_auth import (
+    LECTURA, OPERAR, bearer_from_header, bearer_from_subprotocols, keys_from_env, load_env_file,
+)
+
+# motor.env (no se sube a git) antes de leer cualquier variable: claves, MT5_PATH, QUANT_ALLOWED_ORIGINS
+load_env_file()
+KEYS = keys_from_env()
+
 from signal_engine import QuantSignalEngine, resolve_symbol, EMA_WARMUP_BARS
+from signal_context import TREND_LOOKBACK, annotate, plan_money, stale_execution_reason, trend_12m
+from costs import extra_cost_px, load_costs
 from execution import requested_price, send_plan_orders
 from journal import journal_stats
 import backtest
@@ -41,6 +51,40 @@ env_filter = MarketEnvironmentFilter(
     cache_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), "news_cache.json")
 )
 bot_copilot = QuantBotCopilot()
+COSTS = load_costs()  # costes.json se lee una vez, no en cada escaneo
+
+# Tendencia de 12 meses (D1) por símbolo: cambia una vez al día, no hace falta pedirla cada 1,5 s
+TREND_REFRESH_SECONDS = 1800
+_trend_cache: dict[str, tuple[float, Optional[dict]]] = {}
+
+
+def trend_for(broker_symbol: str) -> Optional[dict]:
+    cached = _trend_cache.get(broker_symbol)
+    if cached and time.time() - cached[0] < TREND_REFRESH_SECONDS:
+        return cached[1]
+    trend = None
+    try:
+        # Desde 1: solo velas D1 cerradas, igual que el historial de H-B
+        rates = mt5.copy_rates_from_pos(broker_symbol, mt5.TIMEFRAME_D1, 1, TREND_LOOKBACK + 5)
+        if rates is not None and len(rates):
+            trend = trend_12m(rates["close"])
+    except Exception as e:
+        print(f"[Trend] {broker_symbol}: {e}")
+    _trend_cache[broker_symbol] = (time.time(), trend)
+    return trend
+
+
+def add_signal_context(res: dict, symbol: str) -> dict:
+    """Tendencia 12 m, coste en R, dinero en riesgo y lista de verificación (solo lectura: no cambia la señal)."""
+    if res.get("direction") not in ("BUY", "SELL"):
+        return res
+    broker = res["broker_symbol"]
+    tick = mt5.symbol_info_tick(broker)
+    spread = max(0.0, tick.ask - tick.bid) if tick else 0.0
+    annotate(res, trend_for(broker), spread, extra_cost_px(symbol, price=res.get("entry_price"), costs=COSTS))
+    res["money"] = plan_money(mt5, broker, res["direction"], res.get("recommended_lot", 0.0),
+                              res.get("entry_price", 0.0), res.get("sl", 0.0), res.get("tp1"), res.get("tp"))
+    return res
 
 # In-memory Demo/Simulation state for when MT5 is offline
 simulated_account = {
@@ -417,6 +461,10 @@ async def market_scanner_loop():
                             res["reasons"].append(f"⚠️ {env['news_message']}")
                         if not env["session_ok"]:
                             res["reasons"].append("🕒 Fuera de horario operativo de alta volatilidad")
+                        try:
+                            add_signal_context(res, sym)
+                        except Exception as e:
+                            print(f"[Context] {sym}: {e}")
 
                         log_strong_signal_if_new(db, res)
                         signals.append(res)
@@ -578,17 +626,51 @@ def origin_can_trade(origin: Optional[str]) -> bool:
     """Órdenes, cierres, kill switch y cálculos: solo el panel local o un origen marcado «operar»."""
     return origin is None or origin in TRADE_ORIGINS
 
+
+def access_level(origin: Optional[str], token: Optional[str]) -> Optional[str]:
+    """Permiso de una petición: 'operar', 'lectura' o None.
+
+    Sin claves (motor en este PC): decide el origen, como siempre.
+    Con claves (motor en un VPS): decide la clave, y además el origen tiene que ser uno conocido."""
+    if KEYS.enabled:
+        return KEYS.level(token) if origin_allowed(origin) else None
+    if origin_can_trade(origin):
+        return OPERAR
+    return LECTURA if origin_allowed(origin) else None
+
+
+# Sin clave solo responde /status (identifica el servicio y dice si pide clave), para el panel y los monitores
+PUBLIC_PATHS = {"/status"}
+
+
 @app.middleware("http")
 async def reject_foreign_origins(request, call_next):
     # CORS no frena los POST "simples" (sin cuerpo JSON): el navegador los envía igual y solo oculta la respuesta
+    if request.method == "OPTIONS":
+        return await call_next(request)
     origin = request.headers.get("origin")
-    if request.method not in ("GET", "HEAD", "OPTIONS") and not origin_can_trade(origin):
-        detail = (
-            f"Este panel es de solo lectura. Opera desde {LOCAL_PANEL_URL}"
-            if origin in READ_ORIGINS else "Origen no permitido"
-        )
+    level = access_level(origin, bearer_from_header(request.headers.get("authorization")))
+    if KEYS.enabled and level is None and request.url.path not in PUBLIC_PATHS:
+        return JSONResponse(status_code=401, content={"detail": "Falta la clave del motor o no es válida"})
+    if request.method not in ("GET", "HEAD") and level != OPERAR:
+        if level == LECTURA:
+            detail = ("Esta clave es de solo lectura" if KEYS.enabled
+                      else f"Este panel es de solo lectura. Opera desde {LOCAL_PANEL_URL}")
+        else:
+            detail = "Origen no permitido"
         return JSONResponse(status_code=403, content={"detail": detail})
     return await call_next(request)
+
+
+async def accept_websocket(websocket: WebSocket) -> bool:
+    """Acepta el WebSocket si el origen (y la clave, con claves activas) lo permiten; si no, lo cierra con 1008."""
+    token = bearer_from_subprotocols(websocket.headers.get("sec-websocket-protocol"))
+    if access_level(websocket.headers.get("origin"), token) is None:
+        await websocket.close(code=1008)
+        return False
+    # Si el panel mandó el subprotocolo "bearer", hay que devolverlo o el navegador corta la conexión
+    await websocket.accept(subprotocol="bearer" if token else None)
+    return True
 
 # allow_private_network: Chrome lo pide en el preflight cuando una página https (Vercel) llama a 127.0.0.1
 app.add_middleware(
@@ -616,10 +698,8 @@ class AutoTradingRequest(BaseModel):
 
 @app.websocket("/ws/signals")
 async def ws_signals(websocket: WebSocket):
-    if not origin_allowed(websocket.headers.get("origin")):
-        await websocket.close(code=1008)
+    if not await accept_websocket(websocket):
         return
-    await websocket.accept()
     clients.connections.append(websocket)
     try:
         while True:
@@ -630,10 +710,8 @@ async def ws_signals(websocket: WebSocket):
 
 @app.websocket("/ws/chart/{symbol}")
 async def websocket_live_chart(websocket: WebSocket, symbol: str, tf: str = "M15"):
-    if not origin_allowed(websocket.headers.get("origin")):
-        await websocket.close(code=1008)
+    if not await accept_websocket(websocket):
         return
-    await websocket.accept()
     try:
         while True:
             df = build_chart_dataframe(symbol, tf, bars=210)
@@ -723,6 +801,15 @@ def execute_trade(req: ExecuteSignalRequest):
     broker_symbol = resolve_symbol(req.symbol)
     if not broker_symbol:
         raise HTTPException(status_code=400, detail=f"{req.symbol} no existe en tu broker")
+
+    # El panel puede mostrar una señal de hace 1,5 s: si la ventana de entrada ya pasó, no se ejecuta un plan viejo
+    latest = next((s for s in latest_market.get("signals", []) if s.get("symbol") == req.symbol), None)
+    stale = stale_execution_reason(req.direction, latest)
+    if stale:
+        raise HTTPException(status_code=409, detail=f"Orden no enviada: {stale}")
+    # Un doble clic abría dos planes (el doble de riesgo): una posición del bot por símbolo
+    if any(p.magic == MAGIC_NUMBER for p in (mt5.positions_get(symbol=broker_symbol) or [])):
+        raise HTTPException(status_code=409, detail=f"Orden no enviada: ya hay una posición del bot abierta en {req.symbol}")
 
     capped, cap_msg = risk_capped_volume(req.symbol, broker_symbol, req.direction, req.volume, req.sl)
     if capped is None:
@@ -1035,14 +1122,23 @@ def get_market():
 
 @app.get("/status")
 def get_status(request: Request):
-    live = is_mt5_live()
-    return {
+    level = access_level(request.headers.get("origin"), bearer_from_header(request.headers.get("authorization")))
+    public = {
         "service": SERVICE_ID,
         "version": SERVICE_VERSION,
-        "can_trade": origin_can_trade(request.headers.get("origin")),
-        "local_panel": LOCAL_PANEL_URL,
-        "mt5_status": "" if live else (mt5_status_message or "Esperando a MetaTrader 5..."),
         "status": "online",
+        "auth_required": KEYS.enabled,
+        "authenticated": level is not None,
+        "can_trade": level == OPERAR,
+        "local_panel": LOCAL_PANEL_URL,
+    }
+    if level is None:
+        # Sin clave válida: solo lo justo para que el panel pida la clave y un monitor sepa que el motor vive
+        return public
+    live = is_mt5_live()
+    return {
+        **public,
+        "mt5_status": "" if live else (mt5_status_message or "Esperando a MetaTrader 5..."),
         "mt5_connected": live,
         "mode": "LIVE" if live else "DEMO",
         "watchlist": WATCHLIST,

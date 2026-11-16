@@ -8,8 +8,8 @@ import { PositionsPanel } from './components/PositionsPanel';
 import { JournalPanel } from './components/JournalPanel';
 import { BacktestPanel } from './components/BacktestPanel';
 import { ForwardPanel } from './components/ForwardPanel';
-import { AlertTriangle, Info, RefreshCw, Eye } from 'lucide-react';
-import { apiFetch, checkEngine, getApiBase, LOCAL_PANEL_URL, wsUrl } from './api';
+import { AlertTriangle, Info, RefreshCw, Eye, Lock } from 'lucide-react';
+import { apiFetch, checkEngine, getApiBase, LOCAL_PANEL_URL, openSocket as openEngineSocket } from './api';
 import type { EngineStatus } from './api';
 
 const WATCHLIST = ['XAUUSD', 'EURUSD', 'GBPUSD', 'US100', 'USDJPY'];
@@ -65,7 +65,7 @@ export const App: React.FC = () => {
 
     const openSocket = () => {
       if (closed || ws) return;
-      const sock = new WebSocket(wsUrl('/ws/signals'));
+      const sock = openEngineSocket('/ws/signals');
       ws = sock;
       sock.onopen = () => { wsAlive = true; };
       sock.onmessage = (event) => {
@@ -162,6 +162,7 @@ export const App: React.FC = () => {
         risk={marketData.risk}
         autotrading={marketData.autotrading}
         wsConnected={engineOk}
+        engineLocked={engine.state === 'locked'}
         mt5Connected={marketData.mt5_connected}
         canTrade={!readOnly}
         onResetRisk={handleResetRisk}
@@ -203,6 +204,19 @@ export const App: React.FC = () => {
             {!isLocalPanel && (
               <a className="btn-ghost" href={engine.localPanel}>Abrir panel local</a>
             )}
+          </div>
+        </div>
+      )}
+
+      {engine.state === 'locked' && (
+        <div className="notice notice-warn">
+          <Lock size={20} color="#f59e0b" style={{ flexShrink: 0 }} />
+          <div style={{ flex: 1 }}>
+            <strong>El motor en {getApiBase()} pide una clave.</strong>
+            <div>
+              Ábrela con el engranaje de arriba a la derecha y pega la clave de lectura u operar de tu archivo{' '}
+              <span className="num-mono">motor.env</span>. Sin clave no se muestra nada de la cuenta.
+            </div>
           </div>
         </div>
       )}

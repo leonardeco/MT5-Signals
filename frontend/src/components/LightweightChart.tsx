@@ -15,7 +15,7 @@ import type {
   Time
 } from 'lightweight-charts';
 import type { TradingSignal } from '../types';
-import { apiFetch, wsUrl } from '../api';
+import { apiFetch, openSocket } from '../api';
 
 interface ChartProps {
   symbol: string;
@@ -162,7 +162,7 @@ export const LightweightChart: React.FC<ChartProps> = ({
     fetchHistorical(true);
 
     let wsOpen = false;
-    const ws = new WebSocket(wsUrl(`/ws/chart/${symbol}?tf=${timeframe}`));
+    const ws = openSocket(`/ws/chart/${symbol}?tf=${timeframe}`);
     ws.onopen = () => { wsOpen = true; };
     ws.onmessage = (event) => {
       try {
@@ -281,7 +281,7 @@ export const LightweightChart: React.FC<ChartProps> = ({
           </div>
         )}
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '8px 12px' }}>
           <div style={{ display: 'flex', gap: '4px', background: 'var(--bg-inset)', padding: '3px', borderRadius: '8px' }}>
             {['M1', 'M5', 'M15', 'H1', 'H4', 'D1'].map((tf) => (
               <button

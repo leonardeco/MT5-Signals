@@ -57,3 +57,22 @@ def test_tsmom_current_continues_where_completed_trades_stop():
 
 def test_tsmom_current_none_with_short_history():
     assert forward.tsmom_current(d1(200, 0.001), SPEC) is None
+
+
+def test_rule_hash_ignores_line_endings_but_not_content(tmp_path):
+    # La congelación real se hizo con archivos CRLF (Windows) y el repositorio guarda LF
+    for f in forward.RULE_FILES:
+        (tmp_path / f).parent.mkdir(parents=True, exist_ok=True)
+        (tmp_path / f).write_bytes(b"x = 1\r\ny = 2\r\n")
+    cfg = forward.freeze(tmp_path, tmp_path / "cfg.json", now=datetime(2026, 10, 15, tzinfo=timezone.utc))
+    for f in forward.RULE_FILES:
+        (tmp_path / f).write_bytes(b"x = 1\ny = 2\n")
+    assert forward.changed_rules(cfg, tmp_path) == []
+    (tmp_path / "setups.py").write_bytes(b"x = 1\ny = 3\n")
+    assert forward.changed_rules(cfg, tmp_path) == ["setups.py"]
+
+
+def test_repository_rules_match_the_frozen_fingerprints():
+    # Las reglas del repositorio son las congeladas el 15-oct-2026: si esto falla, la prueba a futuro dejó de valer
+    cfg = forward.load_config()
+    assert cfg is not None and forward.changed_rules(cfg) == []

@@ -2,13 +2,22 @@
 
 Base: `http://127.0.0.1:8765`. La documentación interactiva está en `/docs` mientras el motor corre.
 
-**Permisos.** `GET` y WebSocket aceptan los orígenes de lectura y de operación. `POST` exige un origen con permiso de operar. Las peticiones sin cabecera `Origin` (scripts locales, curl) se aceptan porque solo pueden venir de este PC. Ver [Riesgo y seguridad](riesgo-y-seguridad.md#el-motor).
+**Permisos en este PC (sin claves).** `GET` y WebSocket aceptan los orígenes de lectura y de operación. `POST` exige un origen con permiso de operar. Las peticiones sin cabecera `Origin` (scripts locales, curl) se aceptan porque solo pueden venir de este PC. Ver [Riesgo y seguridad](riesgo-y-seguridad.md#el-motor).
+
+**Permisos con claves (motor en un VPS, `motor.env`).** Todo salvo `/status` exige una clave válida, también desde curl:
+
+| Canal | Cómo se envía |
+|---|---|
+| HTTP | `Authorization: Bearer <clave>` |
+| WebSocket | Subprotocolo `["bearer", "<clave>"]`, nunca en la URL |
+
+Sin clave o con una clave inválida responde `401`. La clave de lectura no puede hacer `POST` (`403`). El origen tiene que estar además en la lista de permitidos. Ver [Motor en un VPS](vps.md).
 
 ## Lectura
 
 | Método | Ruta | Respuesta |
 |---|---|---|
-| GET | `/status` | `service` (`mt5-senales`), `version`, `can_trade` del origen que pregunta, `local_panel`, `mt5_connected`, `mt5_status`, `watchlist`, `magic`, `autotrading`, `bot_mode` |
+| GET | `/status` | Siempre: `service` (`mt5-senales`), `version`, `auth_required`, `authenticated`, `can_trade`, `local_panel`. Con permiso, además: `mt5_connected`, `mt5_status`, `watchlist`, `magic`, `autotrading`, `bot_mode` |
 | GET | `/market` | Última foto del escáner (igual que el WebSocket): cuenta, riesgo, señales, posiciones y bitácora |
 | GET | `/candles/{symbol}?tf=M15&bars=300` | Velas y EMA 21/50/200. `tf`: M1, M5, M15, H1, H4, D1; `bars` entre 50 y 1500. `simulated: true` sin MT5 |
 | GET | `/history` | Últimas 50 operaciones de la bitácora, con R, MAE/MFE y deslizamiento |

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { AccountInfo, RiskStatus } from '../types';
 import { ShieldAlert, ShieldCheck, Activity, RefreshCw, Settings } from 'lucide-react';
-import { DEFAULT_API_BASE, getApiBase, setApiBase } from '../api';
+import { DEFAULT_API_BASE, getApiBase, getToken, setApiBase, setToken } from '../api';
 import { BrandMark } from './BrandMark';
 
 interface HeaderProps {
@@ -9,6 +9,7 @@ interface HeaderProps {
   risk: RiskStatus | null;
   autotrading: boolean;
   wsConnected: boolean;
+  engineLocked?: boolean;
   mt5Connected?: boolean;
   canTrade?: boolean;
   onResetRisk: () => void;
@@ -20,6 +21,7 @@ export const Header: React.FC<HeaderProps> = ({
   risk,
   autotrading,
   wsConnected,
+  engineLocked = false,
   mt5Connected = false,
   canTrade = true,
   onResetRisk,
@@ -30,6 +32,7 @@ export const Header: React.FC<HeaderProps> = ({
   const switchDisabled = isRiskLocked || !canTrade || !wsConnected;
   const [apiOpen, setApiOpen] = useState(false);
   const [apiDraft, setApiDraft] = useState(getApiBase);
+  const [tokenDraft, setTokenDraft] = useState(getToken);
   const money = (n?: number) => (n ?? 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
   return (
@@ -60,7 +63,7 @@ export const Header: React.FC<HeaderProps> = ({
                 color: mt5Connected ? '#10b981' : '#f59e0b',
                 border: `1px solid ${mt5Connected ? 'rgba(16, 185, 129, 0.3)' : 'rgba(245, 158, 11, 0.3)'}`
               }}>
-                {!wsConnected ? 'SIN MOTOR' : mt5Connected ? 'MT5 CONECTADO' : 'SIN TERMINAL'}
+                {engineLocked ? 'FALTA CLAVE' : !wsConnected ? 'SIN MOTOR' : mt5Connected ? 'MT5 CONECTADO' : 'SIN TERMINAL'}
               </span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '4px', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
@@ -68,7 +71,7 @@ export const Header: React.FC<HeaderProps> = ({
               <span style={{ color: wsConnected ? (mt5Connected ? '#10b981' : '#f59e0b') : '#ef4444', fontWeight: 600 }}>
                 {wsConnected
                   ? (mt5Connected ? 'Terminal MetaTrader recibiendo precios' : 'Sin precios reales: abre MetaTrader 5 en este PC')
-                  : 'Buscando el motor...'}
+                  : engineLocked ? 'Motor encontrado: falta la clave' : 'Buscando el motor...'}
               </span>
               <span style={{ color: 'var(--text-muted)' }}>•</span>
               <span style={{ color: autotrading ? '#10b981' : 'var(--text-secondary)', fontWeight: 600 }}>
@@ -91,7 +94,9 @@ export const Header: React.FC<HeaderProps> = ({
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '16px',
+            flexWrap: 'wrap',
+            gap: '8px 16px',
+            maxWidth: '100%',
             background: 'var(--bg-inset)',
             padding: '8px 16px',
             borderRadius: '10px',
@@ -213,8 +218,8 @@ export const Header: React.FC<HeaderProps> = ({
 
           <div style={{ position: 'relative' }}>
             <button
-              onClick={() => { setApiDraft(getApiBase()); setApiOpen((v) => !v); }}
-              title="Dirección del motor"
+              onClick={() => { setApiDraft(getApiBase()); setTokenDraft(getToken()); setApiOpen((v) => !v); }}
+              title="Dirección y clave del motor"
               style={{
                 padding: '10px',
                 borderRadius: '10px',
@@ -231,6 +236,7 @@ export const Header: React.FC<HeaderProps> = ({
                 onSubmit={(e) => {
                   e.preventDefault();
                   setApiBase(apiDraft);
+                  setToken(tokenDraft);
                   window.location.reload();
                 }}
                 style={{
@@ -238,7 +244,7 @@ export const Header: React.FC<HeaderProps> = ({
                   right: 0,
                   top: '46px',
                   zIndex: 20,
-                  width: '320px',
+                  width: 'min(320px, calc(100vw - 32px))',
                   padding: '12px',
                   borderRadius: '10px',
                   background: '#0f172a',
@@ -253,6 +259,27 @@ export const Header: React.FC<HeaderProps> = ({
                   value={apiDraft}
                   onChange={(e) => setApiDraft(e.target.value)}
                   spellCheck={false}
+                  style={{
+                    width: '100%',
+                    padding: '8px 10px',
+                    borderRadius: '8px',
+                    border: '1px solid var(--border-subtle)',
+                    background: '#090e1a',
+                    color: '#f8fafc',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: '0.78rem',
+                  }}
+                />
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', margin: '10px 0 8px' }}>
+                  Clave del motor (solo si está en un VPS). Se guarda únicamente en este navegador.
+                </div>
+                <input
+                  type="password"
+                  value={tokenDraft}
+                  onChange={(e) => setTokenDraft(e.target.value)}
+                  autoComplete="off"
+                  spellCheck={false}
+                  placeholder="vacío = sin clave"
                   style={{
                     width: '100%',
                     padding: '8px 10px',

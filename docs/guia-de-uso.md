@@ -24,7 +24,7 @@ cd frontend; npm run dev
 ## Rutina diaria
 
 1. **Antes de la sesión** (02:00–15:00 hora de Colombia, lunes a viernes): comprueba que la banda roja «MT5 desconectado» no aparece y que el filtro de entorno no dice «Sin calendario».
-2. **Durante la sesión**: el radar ordena las señales por score. El score describe confluencia técnica, **no** predice resultado. Lo que manda es el estado del plan:
+2. **Durante la sesión**: el radar ordena las señales por estado (activadas, en zona, preparando…). El score describe confluencia técnica, **no** predice resultado. Lo que manda es el estado del plan:
 
    | Estado | Significado |
    |---|---|
@@ -44,7 +44,7 @@ cd frontend; npm run dev
 | Encabezado | Balance, equidad, flotante, margen libre, PnL del día frente al kill switch, interruptor de auto-trading y dirección del motor (engranaje) |
 | Gráfico | Velas M1 a D1 con EMA 21/50/200 y los niveles del plan seleccionado |
 | QuantBot Copilot | Desglose del score en cinco pilares, filtros de entorno y bitácora en vivo |
-| Radar de señales | Un plan por símbolo, con zona, SL, TP1/TP2, lote al 1 % y resultado histórico del mismo rango de score |
+| Radar de señales | Un plan por símbolo, con zona, SL, TP1/TP2, lote al 1 %, dinero en riesgo y a ganar, coste en R, tendencia de 12 meses, lista de verificación con los bloqueos y resultado histórico del par |
 | Posiciones | Abiertas en MT5; cierre individual o de todas las del bot |
 | Backtest | 180 días con costes, por símbolo, con tramos y embudo de setups |
 | Prueba a futuro | Motor y H-B medidos solo después de la congelación de reglas |

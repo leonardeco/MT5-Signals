@@ -35,6 +35,14 @@ def file_hash(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def content_hashes(path: Path) -> set[str]:
+    """Huellas del archivo con fines de línea LF y CRLF. La congelación del 15-oct-2026 se hizo en Windows con 4
+    archivos en CRLF y el repositorio guarda LF (.gitattributes): comparar solo los bytes marcaba como
+    «modificado» un archivo idéntico en cualquier clon nuevo. Un cambio real de contenido sigue detectándose."""
+    lf = path.read_bytes().replace(b"\r\n", b"\n")
+    return {hashlib.sha256(lf).hexdigest(), hashlib.sha256(lf.replace(b"\n", b"\r\n")).hexdigest()}
+
+
 def freeze(root: Path = ROOT, config_path: Path = CONFIG_PATH, now: datetime | None = None) -> dict:
     if config_path.exists():
         raise RuntimeError(f"Ya congelado ({config_path.name}); descongelar invalida la prueba a futuro")
@@ -61,7 +69,7 @@ def changed_rules(cfg: dict, root: Path = ROOT) -> list[str]:
     out = []
     for f, h in cfg["huellas"].items():
         p = root / f
-        if not p.exists() or file_hash(p) != h:
+        if not p.exists() or h not in content_hashes(p):
             out.append(f)
     return out
 

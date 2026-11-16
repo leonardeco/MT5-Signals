@@ -58,3 +58,17 @@ def test_tp2_leg_waits_while_tp1_leg_is_open(monkeypatch):
 def test_tp2_leg_not_moved_if_losing_or_already_at_breakeven(monkeypatch):
     assert run(monkeypatch, [pos(556, 1.0990)], META) == []
     assert run(monkeypatch, [pos(556, 1.1060, sl=1.1000)], META) == []
+
+
+def test_single_min_lot_moves_to_breakeven_at_tp1_without_partial(monkeypatch):
+    # Orden única de lote mínimo: no hay mitad que cerrar, pero al tocar TP1 el stop pasa a breakeven
+    p = SimpleNamespace(ticket=900, type=0, symbol="EURUSD", volume=0.01, price_open=1.1000,
+                        price_current=1.1050, sl=1.0950, tp=1.1200)
+    sent = run(monkeypatch, [p], {900: {"leg": "UNICA", "tp1": 1.1040, "volume_initial": 0.01, "risk": 0.005}})
+    assert len(sent) == 1 and sent[0]["action"] == FakeMT5.TRADE_ACTION_SLTP and sent[0]["sl"] == 1.1
+
+
+def test_single_min_lot_keeps_stop_before_tp1(monkeypatch):
+    p = SimpleNamespace(ticket=901, type=0, symbol="EURUSD", volume=0.01, price_open=1.1000,
+                        price_current=1.1030, sl=1.0950, tp=1.1200)
+    assert run(monkeypatch, [p], {901: {"leg": "UNICA", "tp1": 1.1060, "volume_initial": 0.01}}) == []

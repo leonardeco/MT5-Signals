@@ -9,6 +9,9 @@ class QuantBotCopilot:
         self.min_score_map = {"SNIPER": 85, "INSTITUTIONAL": 75, "DYNAMIC": 65}
         self.auto_partial_done = set()
         self.activity_logs = []
+        # Último aviso de señal por símbolo: con dos señales aprobadas a la vez, el log alternaba A, B, A, B...
+        # en cada escaneo (1,5 s) y en medio minuto expulsaba de la bitácora las ejecuciones y alertas reales
+        self._signal_log_keys: dict[str, tuple] = {}
         self.log_event("🤖 QuantBot Copilot iniciado (Modo INSTITUTIONAL).", "INFO")
 
     def log_event(self, message: str, level: str = "INFO"):
@@ -55,8 +58,11 @@ class QuantBotCopilot:
         min_required = self.min_score_map.get(self.mode, 75)
         sig["bot_approved"] = bool(sig["direction"] != "NEUTRAL" and sig["score"] >= min_required)
         sig["quality"] = "STRONG" if sig["score"] >= 75 else ("MODERATE" if sig["score"] >= 60 else "WAIT")
-        if sig["bot_approved"]:
-            self.log_event(f"🎯 {sig['symbol']} supera el score mínimo del modo ({sig['direction']} • {sig['score']}/100)", "SIGNAL")
+        key = (sig["direction"], sig.get("origin_bar_close"), sig.get("state")) if sig["bot_approved"] else None
+        if key and self._signal_log_keys.get(sig["symbol"]) != key:
+            self.log_event(f"🎯 {sig['symbol']} supera el score mínimo del modo ({sig['direction']} • {sig['score']}/100"
+                           f"{' • ' + sig['state'] if sig.get('state') else ''})", "SIGNAL")
+        self._signal_log_keys[sig["symbol"]] = key
         return sig
 
     def manage_smart_trailing_and_partials(self, magic_number: int, get_filling_mode_fn, trade_meta: dict | None = None):
@@ -80,13 +86,16 @@ class QuantBotCopilot:
                 continue
             sym = mt5.symbol_info(pos.symbol)
             tick = mt5.symbol_info_tick(pos.symbol)
-            rates = mt5.copy_rates_from_pos(pos.symbol, mt5.TIMEFRAME_M15, 0, 20)
-            if not sym or not tick or rates is None:
+            if not sym or not tick:
                 continue
-
-            df = pd.DataFrame(rates)
-            atr = float((df["high"] - df["low"]).tail(14).mean())
-            if atr <= 0:
+            # Las velas solo hacen falta para el ATR del trailing: sin ellas, el parcial y el breakeven en TP1
+            # (que no las usan) se saltaban igualmente
+            rates = mt5.copy_rates_from_pos(pos.symbol, mt5.TIMEFRAME_M15, 0, 20)
+            atr = 0.0
+            if rates is not None and len(rates):
+                df = pd.DataFrame(rates)
+                atr = float((df["high"] - df["low"]).tail(14).mean())
+            if not atr > 0:
                 atr = sym.point * 15
             is_buy = (pos.type == mt5.POSITION_TYPE_BUY)
             tp1 = meta.get("tp1")
@@ -104,6 +113,12 @@ class QuantBotCopilot:
                 if reached and not partial_done:
                     if self._close_partial(pos, sym, tick, is_buy, magic_number, get_filling_mode_fn, "TP1"):
                         partial_done = True
+                    elif not self.can_split(pos.volume, sym):
+                        # Lote mínimo: no hay mitad que cerrar. Antes la operación quedaba sin parcial NI breakeven
+                        # (todo o nada hasta TP2/SL); ahora al menos se protege como el plan: stop a breakeven en TP1
+                        self.auto_partial_done.add(pos.ticket)
+                        partial_done = True
+                        self.log_event(f"ℹ️ #{pos.ticket}: TP1 alcanzado con lote mínimo, sin parcial posible", "INFO")
                 if partial_done:
                     be = round(pos.price_open, sym.digits)
                     needs_be = (is_buy and pos.sl < be) or (not is_buy and pos.sl > be)
@@ -151,12 +166,17 @@ class QuantBotCopilot:
             return True
         return False
 
+    @staticmethod
+    def can_split(volume: float, sym) -> bool:
+        """¿Se puede cerrar la mitad respetando el lote mínimo y el paso del broker?"""
+        if volume < sym.volume_min * 2:
+            return False
+        return math.floor((volume * 0.5) / sym.volume_step + 1e-9) * sym.volume_step >= sym.volume_min - 1e-12
+
     def _close_partial(self, pos, sym, tick, is_buy, magic_number, get_filling_mode_fn, label: str) -> bool:
-        if pos.volume < sym.volume_min * 2:
+        if not self.can_split(pos.volume, sym):
             return False
-        close_vol = round(math.floor((pos.volume * 0.5) / sym.volume_step) * sym.volume_step, 2)
-        if close_vol < sym.volume_min:
-            return False
+        close_vol = round(math.floor((pos.volume * 0.5) / sym.volume_step + 1e-9) * sym.volume_step, 2)
         filling = get_filling_mode_fn(pos.symbol) if callable(get_filling_mode_fn) else mt5.ORDER_FILLING_IOC
         res = mt5.order_send({
             "action": mt5.TRADE_ACTION_DEAL,

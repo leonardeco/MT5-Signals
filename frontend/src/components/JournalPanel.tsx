@@ -43,7 +43,7 @@ export const JournalPanel: React.FC = () => {
     <div className="glass-panel" style={{ padding: '18px' }}>
       
       {/* Header and Refresh */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px', marginBottom: '14px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <BookOpen size={18} color="#38bdf8" />
           <h2 style={{ fontSize: '1.05rem', fontWeight: 700, margin: 0 }}>
@@ -74,7 +74,7 @@ export const JournalPanel: React.FC = () => {
       {/* KPI Cards Row */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(3, 1fr)',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))',
         gap: '12px',
         marginBottom: '14px'
       }}>

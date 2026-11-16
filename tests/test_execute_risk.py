@@ -113,3 +113,24 @@ def test_execute_without_tp1_is_single_order_managed_by_app(live_broker):
     sent, saved = live_broker
     client.post("/execute", json={**ORDER, "volume": 0.20})
     assert len(saved) == 1 and saved[0].leg == "UNICA" and saved[0].group_id is None
+
+
+def test_execute_rejects_stale_signal(live_broker, monkeypatch):
+    sent, _ = live_broker
+    monkeypatch.setattr(main, "latest_market", {"signals": [
+        {"symbol": "EURUSD", "direction": "BUY", "state": "EXPIRADA", "data_source": "MT5"}]})
+    r = client.post("/execute", json={**ORDER, "volume": 0.20})
+    assert r.status_code == 409 and "ya no está activada" in r.json()["detail"] and not sent
+
+
+def test_execute_rejects_second_plan_on_same_symbol(live_broker, monkeypatch):
+    sent, _ = live_broker
+    monkeypatch.setattr(main.mt5, "positions_get", lambda **k: [SimpleNamespace(magic=main.MAGIC_NUMBER)])
+    r = client.post("/execute", json={**ORDER, "volume": 0.20})
+    assert r.status_code == 409 and "ya hay una posición" in r.json()["detail"] and not sent
+
+
+def test_execute_ignores_manual_positions_of_other_magic(live_broker, monkeypatch):
+    sent, _ = live_broker
+    monkeypatch.setattr(main.mt5, "positions_get", lambda **k: [SimpleNamespace(magic=1)])
+    assert client.post("/execute", json={**ORDER, "volume": 0.20}).status_code == 200
