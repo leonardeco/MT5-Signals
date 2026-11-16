@@ -4,7 +4,7 @@
 
 | Pieza | Dónde vive | Cómo se actualiza |
 |---|---|---|
-| Motor | Este PC, junto a MetaTrader 5 | `git pull` y reiniciar `start_terminal.bat` |
+| Motor | Este PC, junto a MetaTrader 5, o un VPS Windows para no depender del PC ([guía](vps.md)) | `git pull` y reiniciar `start_terminal.bat` (o la tarea del VPS) |
 | Panel local | Este PC (`localhost:5180`) | Vite recarga solo al cambiar el código |
 | Panel publicado | [mt5-signals.vercel.app](https://mt5-signals.vercel.app) | Automático en cada push a `main` |
 | Código | [github.com/leonardeco/MT5-Signals](https://github.com/leonardeco/MT5-Signals) | Push |
@@ -58,5 +58,5 @@ Para que Analytics y Speed Insights muestren datos, deben estar habilitados en e
 Posibles siguientes pasos, en orden de valor:
 
 1. **Alertas al móvil desde el motor** (Telegram o push) cuando una señal pase a ACTIVADA o salte el kill switch. Va en el motor, no en Vercel: Vercel no ve tu PC.
-2. **Acceso remoto privado con Tailscale** para mirar el panel desde el móvil, añadiendo antes un token en el motor. No uses un túnel público.
+2. ~~Acceso remoto privado con Tailscale y clave en el motor~~: hecho, ver [Motor en un VPS](vps.md).
 3. **Dominio propio** en Vercel, si quieres una URL fija y fácil de recordar. Recuerda añadirlo a `allowed_origins.local`.

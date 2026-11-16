@@ -34,5 +34,5 @@ El código de `mt5-signals.vercel.app` sale del repositorio de GitHub y de la cu
 
 ### Lo que no hay que hacer
 
-- **No expongas el motor a internet** con un túnel público (ngrok, Cloudflare Tunnel abierto, port forwarding). El control de origen protege del navegador, no de un cliente que llama directamente sin `Origin`. Si algún día quieres verlo desde el móvil, usa una red privada (Tailscale) y añade antes autenticación por token.
+- **No expongas el motor a internet** con un túnel público (ngrok, Cloudflare Tunnel abierto, port forwarding). El control de origen protege del navegador, no de un cliente que llama directamente sin `Origin`. Para usarlo fuera de este PC, sigue [Motor en un VPS](vps.md): red privada con Tailscale y claves del motor (`motor.env`), con las que nada responde sin una clave válida, ni siquiera curl.
 - No subas `allowed_origins.local`, `quant_terminal.db` ni `news_cache.json`; `.gitignore` ya los excluye.

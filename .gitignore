@@ -10,6 +10,7 @@ quant_terminal.db
 news_cache.json
 news_cache.json.tmp
 allowed_origins.local
+motor.env
 .env
 .env.local
 

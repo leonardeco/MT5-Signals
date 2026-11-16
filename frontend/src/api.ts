@@ -2,6 +2,25 @@ export const DEFAULT_API_BASE = 'http://127.0.0.1:8765';
 export const LOCAL_PANEL_URL = 'http://localhost:5180';
 export const SERVICE_ID = 'mt5-senales';
 const STORAGE_KEY = 'mt5quant.apiBase';
+const TOKEN_KEY = 'mt5quant.token';
+
+// Clave del motor (solo cuando el motor está en un VPS). Se guarda únicamente en este navegador.
+export function getToken(): string {
+  try {
+    return localStorage.getItem(TOKEN_KEY)?.trim() ?? '';
+  } catch {
+    return '';
+  }
+}
+
+export function setToken(token: string) {
+  try {
+    if (token.trim()) localStorage.setItem(TOKEN_KEY, token.trim());
+    else localStorage.removeItem(TOKEN_KEY);
+  } catch {
+    /* sin almacenamiento el panel funciona sin clave */
+  }
+}
 
 export function getApiBase(): string {
   const fromEnv = (import.meta.env.VITE_API_BASE as string | undefined)?.trim() ?? '';
@@ -36,10 +55,20 @@ export function wsUrl(path: string): string {
 }
 
 export function apiFetch(path: string, init?: RequestInit): Promise<Response> {
-  return fetch(apiUrl(path), init);
+  const token = getToken();
+  if (!token) return fetch(apiUrl(path), init);
+  const headers = new Headers(init?.headers);
+  headers.set('Authorization', `Bearer ${token}`);
+  return fetch(apiUrl(path), { ...init, headers });
 }
 
-export type EngineState = 'checking' | 'ok' | 'offline' | 'foreign';
+// El navegador no deja poner cabeceras en un WebSocket: la clave va como subprotocolo, nunca en la URL
+export function openSocket(path: string): WebSocket {
+  const token = getToken();
+  return token ? new WebSocket(wsUrl(path), ['bearer', token]) : new WebSocket(wsUrl(path));
+}
+
+export type EngineState = 'checking' | 'ok' | 'offline' | 'foreign' | 'locked';
 
 export interface EngineStatus {
   state: EngineState;
@@ -59,6 +88,7 @@ export async function checkEngine(): Promise<EngineStatus> {
   try {
     const body = await res.json();
     if (!res.ok || body?.service !== SERVICE_ID) return { ...base, state: 'foreign' };
+    if (body.auth_required && !body.authenticated) return { ...base, state: 'locked', version: body.version };
     return {
       state: 'ok',
       canTrade: Boolean(body.can_trade),

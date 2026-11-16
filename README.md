@@ -78,6 +78,7 @@ El panel de Vercel es la misma aplicación servida como página estática. No ti
 | [Riesgo y seguridad](docs/riesgo-y-seguridad.md) | Capas de protección de la cuenta y del motor |
 | [Investigación](docs/investigacion.md) | Evidencia, criterio de ventaja y cómo probar una idea nueva |
 | [Despliegue](docs/despliegue.md) | GitHub, Vercel, CI e integraciones |
+| [Motor en un VPS](docs/vps.md) | Funcionar 24/5 sin tu PC: VPS Windows, claves del motor y acceso privado con Tailscale |
 | [Constitución](docs/constitution.md) | Reglas que ningún cambio puede romper |
 
 ## Desarrollo
