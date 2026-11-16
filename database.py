@@ -113,6 +113,21 @@ def log_strong_signal_if_new(db, res: dict):
         db.add(new_log)
         db.commit()
 
+HISTORY_WAIT = timedelta(minutes=10)
+_missing_since: dict[int, datetime] = {}  # ticket -> primera vez que no apareció entre las posiciones abiertas
+
+
+def should_give_up_on_history(ticket: int, now_utc: datetime, missing_since: dict | None = None) -> bool:
+    """Una posición que ya no está abierta pero aún sin deals en el historial se reintenta durante HISTORY_WAIT,
+    contado desde que desapareció (no desde que se abrió: una operación de dos días no debe darse por perdida)."""
+    seen = _missing_since if missing_since is None else missing_since
+    first = seen.setdefault(ticket, now_utc)
+    if now_utc - first > HISTORY_WAIT:
+        seen.pop(ticket, None)
+        return True
+    return False
+
+
 def sync_open_trades_with_mt5_history(db):
     open_trades = db.query(TradeRecord).filter(TradeRecord.status == "OPEN").all()
     if not open_trades:
@@ -124,7 +139,6 @@ def sync_open_trades_with_mt5_history(db):
     except Exception:
         return
 
-    from_date = datetime.now() - timedelta(days=7)
     for trade in open_trades:
         if trade.ticket not in current_positions:
             # Position is no longer in active positions, check history deals
@@ -138,10 +152,15 @@ def sync_open_trades_with_mt5_history(db):
                     trade.close_price = close_deal.price
                     trade.close_time = datetime.fromtimestamp(close_deal.time)
                     finalize_closed_trade(trade, deals, mt5)
-                else:
-                    # Still mark as closed if not in active positions
+                    _missing_since.pop(trade.ticket, None)
+                elif should_give_up_on_history(trade.ticket, datetime.utcnow()):
+                    # Sin historial tras el margen de espera: se cierra sin resultado para no quedar abierta siempre
                     trade.status = "CLOSED"
                     trade.close_time = datetime.utcnow()
+                else:
+                    # MT5 puede tardar en cargar los deals de una posición recién cerrada: si se marcaba CLOSED ya,
+                    # quedaba con beneficio 0 y sin R para siempre (el diario no la vuelve a mirar)
+                    continue
                 db.commit()
             except Exception:
                 pass

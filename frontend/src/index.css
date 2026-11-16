@@ -209,6 +209,75 @@ button:active {
   }
 
   .terminal-grid {
-    grid-template-columns: 1fr;
+    /* minmax(0, …): con 1fr la columna crecía hasta el ancho mínimo del contenido y desbordaba en el móvil */
+    grid-template-columns: minmax(0, 1fr);
   }
+}
+
+/* Radar de señales: chips, lista de verificación y dinero del plan */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.66rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.check-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 3px;
+}
+
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  padding: 4px 6px;
+  border-radius: 6px;
+  font-size: 0.66rem;
+  line-height: 1.25;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid transparent;
+}
+
+.check-item > span:first-of-type {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.check-item svg {
+  flex-shrink: 0;
+}
+
+.check-item.is-ok { color: #cbd5e1; }
+.check-item.is-bad { color: #fca5a5; border-color: rgba(239, 68, 68, 0.25); }
+.check-item.is-na { color: var(--text-muted); }
+
+.check-detail {
+  margin-left: auto;
+  padding-left: 4px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  white-space: nowrap;
+}
+
+.money-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin-top: 6px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.7rem;
+  color: var(--text-muted);
 }

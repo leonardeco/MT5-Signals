@@ -100,6 +100,20 @@ export interface TradingSignal {
   auto_eligible?: boolean;
   pillars?: Pillars;
   environment?: Environment;
+  origin_bar_close?: number;
+  // Contexto para decidir (signal_context.py): no cambia la señal
+  trend_12m?: { direction: 'BUY' | 'SELL'; return_pct: number } | null;
+  cost_r?: number | null;
+  money?: { risk: number; tp1?: number; tp2?: number } | null;
+  checklist?: ChecklistItem[];
+  checklist_summary?: { passed: number; total: number; blockers: string[] };
+}
+
+export interface ChecklistItem {
+  key: string;
+  label: string;
+  ok: boolean | null;
+  detail: string;
 }
 
 export interface AccountInfo {

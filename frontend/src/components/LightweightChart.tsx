@@ -281,7 +281,7 @@ export const LightweightChart: React.FC<ChartProps> = ({
           </div>
         )}
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '8px 12px' }}>
           <div style={{ display: 'flex', gap: '4px', background: 'var(--bg-inset)', padding: '3px', borderRadius: '8px' }}>
             {['M1', 'M5', 'M15', 'H1', 'H4', 'D1'].map((tf) => (
               <button

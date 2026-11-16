@@ -14,6 +14,8 @@ import numpy as np
 import MetaTrader5 as mt5
 
 from signal_engine import QuantSignalEngine, resolve_symbol, EMA_WARMUP_BARS
+from signal_context import TREND_LOOKBACK, annotate, plan_money, stale_execution_reason, trend_12m
+from costs import extra_cost_px, load_costs
 from execution import requested_price, send_plan_orders
 from journal import journal_stats
 import backtest
@@ -41,6 +43,40 @@ env_filter = MarketEnvironmentFilter(
     cache_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), "news_cache.json")
 )
 bot_copilot = QuantBotCopilot()
+COSTS = load_costs()  # costes.json se lee una vez, no en cada escaneo
+
+# Tendencia de 12 meses (D1) por símbolo: cambia una vez al día, no hace falta pedirla cada 1,5 s
+TREND_REFRESH_SECONDS = 1800
+_trend_cache: dict[str, tuple[float, Optional[dict]]] = {}
+
+
+def trend_for(broker_symbol: str) -> Optional[dict]:
+    cached = _trend_cache.get(broker_symbol)
+    if cached and time.time() - cached[0] < TREND_REFRESH_SECONDS:
+        return cached[1]
+    trend = None
+    try:
+        # Desde 1: solo velas D1 cerradas, igual que el historial de H-B
+        rates = mt5.copy_rates_from_pos(broker_symbol, mt5.TIMEFRAME_D1, 1, TREND_LOOKBACK + 5)
+        if rates is not None and len(rates):
+            trend = trend_12m(rates["close"])
+    except Exception as e:
+        print(f"[Trend] {broker_symbol}: {e}")
+    _trend_cache[broker_symbol] = (time.time(), trend)
+    return trend
+
+
+def add_signal_context(res: dict, symbol: str) -> dict:
+    """Tendencia 12 m, coste en R, dinero en riesgo y lista de verificación (solo lectura: no cambia la señal)."""
+    if res.get("direction") not in ("BUY", "SELL"):
+        return res
+    broker = res["broker_symbol"]
+    tick = mt5.symbol_info_tick(broker)
+    spread = max(0.0, tick.ask - tick.bid) if tick else 0.0
+    annotate(res, trend_for(broker), spread, extra_cost_px(symbol, price=res.get("entry_price"), costs=COSTS))
+    res["money"] = plan_money(mt5, broker, res["direction"], res.get("recommended_lot", 0.0),
+                              res.get("entry_price", 0.0), res.get("sl", 0.0), res.get("tp1"), res.get("tp"))
+    return res
 
 # In-memory Demo/Simulation state for when MT5 is offline
 simulated_account = {
@@ -417,6 +453,10 @@ async def market_scanner_loop():
                             res["reasons"].append(f"⚠️ {env['news_message']}")
                         if not env["session_ok"]:
                             res["reasons"].append("🕒 Fuera de horario operativo de alta volatilidad")
+                        try:
+                            add_signal_context(res, sym)
+                        except Exception as e:
+                            print(f"[Context] {sym}: {e}")
 
                         log_strong_signal_if_new(db, res)
                         signals.append(res)
@@ -723,6 +763,15 @@ def execute_trade(req: ExecuteSignalRequest):
     broker_symbol = resolve_symbol(req.symbol)
     if not broker_symbol:
         raise HTTPException(status_code=400, detail=f"{req.symbol} no existe en tu broker")
+
+    # El panel puede mostrar una señal de hace 1,5 s: si la ventana de entrada ya pasó, no se ejecuta un plan viejo
+    latest = next((s for s in latest_market.get("signals", []) if s.get("symbol") == req.symbol), None)
+    stale = stale_execution_reason(req.direction, latest)
+    if stale:
+        raise HTTPException(status_code=409, detail=f"Orden no enviada: {stale}")
+    # Un doble clic abría dos planes (el doble de riesgo): una posición del bot por símbolo
+    if any(p.magic == MAGIC_NUMBER for p in (mt5.positions_get(symbol=broker_symbol) or [])):
+        raise HTTPException(status_code=409, detail=f"Orden no enviada: ya hay una posición del bot abierta en {req.symbol}")
 
     capped, cap_msg = risk_capped_volume(req.symbol, broker_symbol, req.direction, req.volume, req.sl)
     if capped is None:

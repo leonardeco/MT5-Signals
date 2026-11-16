@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import type { TradingSignal } from '../types';
+import type { ChecklistItem, TradingSignal } from '../types';
 import { apiFetch } from '../api';
-import { ArrowUpRight, ArrowDownRight, Minus, CheckCircle, Send, Loader2, AlertTriangle } from 'lucide-react';
+import {
+  ArrowUpRight, ArrowDownRight, Minus, CheckCircle, Send, Loader2, AlertTriangle, Check, X, CircleHelp,
+  TrendingUp, TrendingDown,
+} from 'lucide-react';
 
 const STATE_META: Record<string, { label: string; color: string; hint: string }> = {
   PREPARANDO: { label: 'PREPARANDO', color: '#38bdf8', hint: 'Esperando que el precio llegue a la zona' },
@@ -25,6 +28,47 @@ const rColor = (r?: number) => ((r ?? 0) > 0 ? '#10b981' : '#ef4444');
 // Mismo criterio que history_allows_auto en main.py
 const EDGE_RULE = 'ambos tramos del backtest ≥ +0.05R con ≥ 30 ops cada uno y t ≥ 2';
 
+// Orden del radar: primero lo que se puede ejecutar ya, después lo que está por llegar. El score no ordena calidad.
+const STATE_PRIORITY: Record<string, number> = {
+  ACTIVADA: 0, EN_ZONA: 1, PREPARANDO: 2, DESCARTADA: 3, EXPIRADA: 4, INVALIDADA: 4, SIN_SETUP: 5,
+};
+const priority = (s: TradingSignal) => (s.direction === 'NEUTRAL' ? 6 : STATE_PRIORITY[s.state ?? 'SIN_SETUP'] ?? 5);
+const sortSignals = (signals: TradingSignal[]) =>
+  [...signals].sort((a, b) => priority(a) - priority(b) || b.score - a.score || a.symbol.localeCompare(b.symbol));
+
+const fmtMoney = (v?: number) =>
+  v == null ? '–' : `${v < 0 ? '−' : ''}$${Math.abs(v).toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
+
+const checkIcon = (ok: boolean | null) =>
+  ok === true ? <Check size={11} color="#10b981" /> : ok === false ? <X size={11} color="#ef4444" /> : <CircleHelp size={11} color="#64748b" />;
+
+const ChecklistView: React.FC<{ items: ChecklistItem[] }> = ({ items }) => (
+  <div className="check-grid">
+    {items.map((it) => (
+      <div key={it.key} className={`check-item ${it.ok === true ? 'is-ok' : it.ok === false ? 'is-bad' : 'is-na'}`}
+        title={it.detail || it.label}>
+        {checkIcon(it.ok)}
+        <span>{it.label}</span>
+        {it.detail && <span className="check-detail">{it.detail}</span>}
+      </div>
+    ))}
+  </div>
+);
+
+const orderSummary = (sig: TradingSignal) => {
+  const lines = [
+    `${sig.direction} ${sig.symbol} · ${sig.recommended_lot} L`,
+    `Entrada ${sig.entry_type === 'MERCADO' ? 'a mercado' : 'en zona'} ≈ ${sig.entry_price}`,
+    `SL ${sig.sl}${sig.money ? ` (−${fmtMoney(sig.money.risk).replace('−', '')})` : ''}`,
+    sig.tp1 != null ? `TP1 ${sig.tp1} (${sig.rr_tp1}R, 50 %) · TP2 ${sig.tp} (${sig.rr_tp2}R)` : `TP ${sig.tp}`,
+  ];
+  if (sig.cost_r != null) lines.push(`Coste estimado ${sig.cost_r.toFixed(2)}R`);
+  const blockers = sig.checklist_summary?.blockers ?? [];
+  if (blockers.length) lines.push('', `⚠️ No cumple: ${blockers.join(', ')}`);
+  if (!sig.auto_eligible) lines.push('', `⚠️ Sin ventaja demostrada en el backtest (${EDGE_RULE}). Es lectura de contexto.`);
+  return lines.join('\n');
+};
+
 interface SignalsPanelProps {
   signals: TradingSignal[];
   selectedSymbol: string;
@@ -43,14 +87,19 @@ export const SignalsPanel: React.FC<SignalsPanelProps> = ({
   const [executing, setExecuting] = useState<string | null>(null);
   const liveSignals = signals.some((s) => s.data_source === 'MT5');
   const anyEdge = signals.some((s) => s.auto_eligible);
+  const sorted = sortSignals(signals);
+  const count = (st: string) => signals.filter((s) => s.direction !== 'NEUTRAL' && s.state === st).length;
+  const counts = [
+    { n: count('ACTIVADA'), label: 'activadas', color: '#10b981' },
+    { n: count('EN_ZONA'), label: 'en zona', color: '#f59e0b' },
+    { n: count('PREPARANDO'), label: 'preparando', color: '#38bdf8' },
+  ];
 
   const handleExecute = async (sig: TradingSignal, e: React.MouseEvent) => {
     e.stopPropagation();
     if (sig.direction === 'NEUTRAL') return;
-    if (!sig.auto_eligible && !window.confirm(
-      `${sig.symbol} no tiene ventaja demostrada en el backtest (${EDGE_RULE}).\n` +
-      'La señal es lectura de contexto, no una recomendación. ¿Ejecutar igualmente?'
-    )) return;
+    // Siempre se confirma con el resumen completo de la orden: lote, niveles, dinero en riesgo y avisos
+    if (!window.confirm(`${orderSummary(sig)}\n\n¿Enviar la orden?`)) return;
 
     setExecuting(sig.symbol);
     try {
@@ -91,6 +140,16 @@ export const SignalsPanel: React.FC<SignalsPanelProps> = ({
         </h2>
       </div>
 
+      {liveSignals && (
+        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '12px' }}>
+          {counts.map((c) => (
+            <span key={c.label} className="chip" style={{ color: c.n ? c.color : 'var(--text-muted)', borderColor: c.n ? `${c.color}66` : undefined }}>
+              <span className="num-mono" style={{ fontWeight: 800 }}>{c.n}</span> {c.label}
+            </span>
+          ))}
+        </div>
+      )}
+
       {liveSignals && !anyEdge && (
         <div style={{
           display: 'flex', gap: '8px', alignItems: 'flex-start', marginBottom: '12px', padding: '10px 12px',
@@ -112,7 +171,7 @@ export const SignalsPanel: React.FC<SignalsPanelProps> = ({
             Escaneando mercado con MetaTrader 5...
           </div>
         ) : (
-          signals.map((sig) => {
+          sorted.map((sig) => {
             const isSelected = sig.symbol === selectedSymbol;
             const isBuy = sig.direction === 'BUY';
             const isSell = sig.direction === 'SELL';
@@ -176,6 +235,18 @@ export const SignalsPanel: React.FC<SignalsPanelProps> = ({
                       {isNeutral && <Minus size={13} />}
                       {sig.direction}
                     </span>
+
+                    {!isNeutral && sig.trend_12m && (() => {
+                      const withTrend = sig.trend_12m.direction === sig.direction;
+                      const c = withTrend ? '#34d399' : '#f59e0b';
+                      return (
+                        <span className="chip" style={{ color: c, borderColor: `${c}66` }}
+                          title={`Retorno de 12 meses en D1: ${sig.trend_12m.return_pct}%. Es la medida de H-B, la única hipótesis con resultado positivo tras costes (+0.067R, t 2.22), aún sin demostrar.`}>
+                          {sig.trend_12m.direction === 'BUY' ? <TrendingUp size={11} /> : <TrendingDown size={11} />}
+                          12m {withTrend ? 'a favor' : 'en contra'}
+                        </span>
+                      );
+                    })()}
 
                     {sig.bot_approved && (
                       <span
@@ -277,9 +348,40 @@ export const SignalsPanel: React.FC<SignalsPanelProps> = ({
                       <div style={{ fontSize: '0.66rem', color: 'var(--text-muted)', marginTop: '4px' }}>
                         TP1: {sig.tp1_label} · TP2: {sig.tp2_label} · tras TP1 el stop pasa a breakeven
                       </div>
+                      {(sig.money || sig.cost_r != null) && (
+                        <div className="money-row">
+                          {sig.money && <>
+                            <span>Riesgo <b className="num-mono" style={{ color: '#fca5a5' }}>{fmtMoney(sig.money.risk)}</b></span>
+                            {sig.money.tp1 != null && <span>TP1 <b className="num-mono" style={{ color: '#6ee7b7' }}>+{fmtMoney(sig.money.tp1)}</b></span>}
+                            {sig.money.tp2 != null && <span>TP2 <b className="num-mono" style={{ color: '#34d399' }}>+{fmtMoney(sig.money.tp2)}</b></span>}
+                          </>}
+                          {sig.cost_r != null && (
+                            <span title="Spread actual + deslizamiento y comisión de costs.py, dividido por el riesgo del plan">
+                              Coste <b className="num-mono" style={{ color: sig.cost_r > 0.1 ? '#f59e0b' : '#cbd5e1' }}>{sig.cost_r.toFixed(2)}R</b>
+                            </span>
+                          )}
+                        </div>
+                      )}
                     </div>
                   );
                 })()}
+
+                {/* Lista de verificación antes de entrar (no es una probabilidad de acierto) */}
+                {!isNeutral && sig.checklist && sig.checklist_summary && (
+                  <div style={{ marginBottom: '10px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.68rem', marginBottom: isSelected ? '6px' : 0 }}>
+                      <span style={{ color: 'var(--text-secondary)', fontWeight: 700 }}>
+                        Verificación <span className="num-mono">{sig.checklist_summary.passed}/{sig.checklist_summary.total}</span>
+                      </span>
+                      {sig.checklist_summary.blockers.length > 0 ? (
+                        <span style={{ color: '#f59e0b', textAlign: 'right' }}>No cumple: {sig.checklist_summary.blockers.join(' · ')}</span>
+                      ) : (
+                        <span style={{ color: '#34d399' }}>Sin bloqueos</span>
+                      )}
+                    </div>
+                    {isSelected && <ChecklistView items={sig.checklist} />}
+                  </div>
+                )}
 
                 {/* Resultado histórico del mismo tipo de señal */}
                 {!isNeutral && sig.history && (

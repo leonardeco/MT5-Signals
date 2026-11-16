@@ -40,3 +40,4 @@ Las reglas congeladas son `setups.py`, `signal_engine.py`, `backtest.py`, `costs
 - [Variantes del motor](../research/INFORME_VARIANTES.md): los 20 intentos iniciales.
 - [Diagnóstico y hoja de ruta](../research/DIAGNOSTICO_Y_HOJA_DE_RUTA.md): auditoría, fuentes y fases.
 - [Fase 2](../research/INFORME_FASE2.md): H-A y H-B en detalle.
+- [Auditoría y propuesta de mejora (16-nov-2026)](../research/PROPUESTA_MEJORA.md): defectos corregidos, ficha de decisión de cada señal y cambios pendientes de aprobar.

@@ -91,7 +91,9 @@ export const Header: React.FC<HeaderProps> = ({
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '16px',
+            flexWrap: 'wrap',
+            gap: '8px 16px',
+            maxWidth: '100%',
             background: 'var(--bg-inset)',
             padding: '8px 16px',
             borderRadius: '10px',
